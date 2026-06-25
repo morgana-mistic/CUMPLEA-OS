@@ -1,28 +1,18 @@
 
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cumple de Matías</title>
+
   <style>
     :root{
-      --bg1:#fff5fb;
-      --bg2:#f4f6ff;
-      --pink:#ff5fb2;
-      --pink-dark:#e93d98;
-      --blue:#74d8ff;
-      --blue-dark:#45c1f7;
-      --yellow:#ffd95e;
-      --lav:#c9a6ff;
-      --mint:#bdf7df;
       --text:#5a2b5f;
-      --white:#ffffff;
       --shadow:0 12px 30px rgba(221, 87, 173, .20);
       --shadow-soft:0 8px 20px rgba(130, 130, 200, .14);
       --radius-xl:32px;
-      --radius-lg:24px;
-      --radius-md:18px;
     }
 
     *{
@@ -32,7 +22,7 @@
     }
 
     body{
-      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;
       color:var(--text);
       background:
         radial-gradient(circle at 20% 10%, #ffffff 0, #ffffff66 12%, transparent 13%),
@@ -107,36 +97,6 @@
       box-shadow:0 10px 25px rgba(255, 122, 190, .16);
     }
 
-    .eyebrow{
-      display:inline-block;
-      margin:0 auto 10px;
-      padding:8px 14px;
-      border-radius:999px;
-      background:linear-gradient(180deg, #fff6b9, #ffd95e);
-      color:#7a4f00;
-      font-weight:700;
-      font-size:.92rem;
-      box-shadow:0 8px 18px rgba(255, 217, 94, .28);
-    }
-
-    .title{
-      font-size:2rem;
-      line-height:1.05;
-      text-align:center;
-      margin-bottom:8px;
-      color:#c92d87;
-      text-shadow:0 2px 0 rgba(255,255,255,.9);
-    }
-
-    .subtitle{
-      text-align:center;
-      font-size:1rem;
-      line-height:1.45;
-      max-width:320px;
-      margin:0 auto 18px;
-      color:#6d4470;
-    }
-
     .menu{
       display:grid;
       gap:12px;
@@ -144,6 +104,7 @@
     }
 
     .menu a{
+      display:block;
       text-decoration:none;
       color:#fff;
       font-weight:800;
@@ -200,23 +161,7 @@
       line-height:1.4;
     }
 
-    .sparkles{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      margin:14px 0 8px;
-      font-size:1.1rem;
-    }
-
     @media (max-width:420px){
-      .title{
-        font-size:1.8rem;
-      }
-
-      .subtitle{
-        font-size:.96rem;
-      }
-
       .menu a{
         font-size:.98rem;
         padding:14px 14px;
@@ -228,9 +173,11 @@
   <main class="page">
     <section class="hero">
       <div class="hero-inner">
+
         <div class="hero-image-wrap">
           <img src="PORTADA.png" alt="Portada del cumpleaños de Matías" class="hero-image">
         </div>
+
         <nav class="menu">
           <a href="musica.html" class="btn-music">Dale play a mi fiesta</a>
           <a href="fotos.html" class="btn-fotos">Mis fotos favoritas</a>
@@ -242,8 +189,10 @@
         <p class="footer-note">
           Gracias por acompañarme en este día tan especial 💖
         </p>
+
       </div>
     </section>
   </main>
 </body>
 </html>
+```
