@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis fotos favoritas 💖 | Matías</title>
+
+  <style>
+    :root{
+      --pink:#ff69b4;
+      --hotpink:#ff4fa3;
+      --pink2:#ff8dc7;
+      --yellow:#ffe27a;
+      --mint:#b9fff0;
+      --sky:#bfe9ff;
+      --lav:#d9c7ff;
+      --peach:#ffd4b8;
+      --white:#ffffff;
+      --ink:#6a4b63;
+      --shadow:0 18px 35px rgba(255, 79, 163, .18);
+      --shadow-2:0 12px 25px rgba(0,0,0,.14);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: "Trebuchet MS", "Arial", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.55) 0 8%, transparent 9%),
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,.45) 0 7%, transparent 8%),
+        radial-gradient(circle at 30% 75%, rgba(255,255,255,.35) 0 6%, transparent 7%),
+        linear-gradient(135deg, #bfe9ff 0%, #ffd6ec 45%, #fff3b0 100%);
+      min-height:100vh;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    /* BRILLOS / BURBUJAS DE FONDO */
+    body::before,
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    body::before{
+      background:
+        radial-gradient(circle at 15% 25%, rgba(255,255,255,.38) 0 30px, transparent 31px),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.30) 0 22px, transparent 23px),
+        radial-gradient(circle at 75% 72%, rgba(255,255,255,.25) 0 28px, transparent 29px),
+        radial-gradient(circle at 12% 82%, rgba(255,255,255,.22) 0 18px, transparent 19px);
+      opacity:.9;
+    }
+
+    body::after{
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.14), transparent 35%, rgba(255,255,255,.08) 65%, transparent 100%);
+      mix-blend-mode:screen;
+    }
+
+    .page{
+      position:relative;
+      z-index:1;
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 16px 56px;
+    }
+
+    /* CABECERA */
+    .hero{
+      position:relative;
+      text-align:center;
+      margin:8px auto 24px;
+      padding:28px 20px 22px;
+      max-width:880px;
+      border-radius:34px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.72));
+      border:3px solid rgba(255,255,255,.75);
+      box-shadow:
+        0 10px 35px rgba(255,255,255,.35) inset,
+        0 -10px 20px rgba(255,255,255,.2) inset,
+        var(--shadow);
+      backdrop-filter: blur(5px);
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.75) 0 18px, transparent 19px),
+        radial-gradient(circle at 85% 18%, rgba(255,255,255,.45) 0 14px, transparent 15px),
+        linear-gradient(135deg, rgba(255,105,180,.08), rgba(191,233,255,.06), rgba(255,226,122,.08));
+      pointer-events:none;
+    }
+
+    .hero h1{
+      position:relative;
+      z-index:1;
+      margin:0;
+      font-size:clamp(2rem, 5vw, 3.2rem);
+      color:var(--hotpink);
+      letter-spacing:.3px;
+      text-shadow:
+        0 2px 0 #fff,
+        0 0 18px rgba(255,255,255,.85);
+    }
+
+    .hero p{
+      position:relative;
+      z-index:1;
+      margin:10px auto 0;
+      max-width:680px;
+      font-size:clamp(1rem, 2.5vw, 1.15rem);
+      line-height:1.45;
+      color:#7a5f74;
+    }
+
+    .mini-badges{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .mini-badge{
+      padding:8px 14px;
+      border-radius:999px;
+      background:linear-gradient(180deg, #fff, #ffeef8);
+      border:2px solid rgba(255,255,255,.9);
+      box-shadow:
+        0 4px 10px rgba(255,255,255,.75) inset,
+        0 6px 14px rgba(255,105,180,.15);
+      font-size:.95rem;
+      font-weight:700;
+      color:#ff5aa9;
+    }
+
+    /* STICKERS FLOTANTES */
+    .floating-stickers{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+      overflow:hidden;
+    }
+
+    .sticker{
+      position:absolute;
+      font-size:clamp(24px, 3vw, 42px);
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,.12));
+      animation: floaty var(--dur, 8s) ease-in-out infinite;
+      opacity:.95;
+      user-select:none;
+    }
+
+    .s1{ top:90px; left:4%; --dur:8s; transform:rotate(-8deg);}
+    .s2{ top:160px; right:6%; --dur:9s; transform:rotate(10deg);}
+    .s3{ top:44%; left:2%; --dur:10s; transform:rotate(-12deg);}
+    .s4{ top:56%; right:3%; --dur:8.5s; transform:rotate(9deg);}
+    .s5{ bottom:120px; left:7%; --dur:9.5s; transform:rotate(-6deg);}
+    .s6{ bottom:90px; right:8%; --dur:8s; transform:rotate(12deg);}
+    .s7{ top:28%; right:18%; --dur:11s; transform:rotate(-4deg);}
+    .s8{ top:72%; left:16%; --dur:10s; transform:rotate(8deg);}
+
+    @keyframes floaty{
+      0%,100%{ transform:translateY(0) rotate(var(--rot,0deg)) scale(1); }
+      50%{ transform:translateY(-14px) rotate(calc(var(--rot,0deg) + 4deg)) scale(1.06); }
+    }
+
+    /* TABLERO SCRAPBOOK */
+    .scrapbook-wrap{
+      position:relative;
+      margin:0 auto;
+      max-width:1120px;
+      padding:20px 8px 12px;
+    }
+
+    .scrapbook{
+      position:relative;
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      gap:18px;
+      align-items:start;
+    }
+
+    /* POLAROID 3D */
+    .photo-card{
+      position:relative;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,248,252,.96));
+      border-radius:24px;
+      padding:12px 12px 18px;
+      box-shadow:
+        0 10px 22px rgba(255,255,255,.75) inset,
+        0 -8px 12px rgba(255,255,255,.25) inset,
+        var(--shadow-2);
+      border:3px solid rgba(255,255,255,.95);
+      cursor:pointer;
+      transform-style:preserve-3d;
+      transition:transform .35s ease, box-shadow .35s ease;
+      overflow:visible;
+      isolation:isolate;
+    }
+
+    .photo-card:hover{
+      transform:translateY(-8px) rotate(var(--tilt,0deg)) scale(1.03);
+      box-shadow:
+        0 12px 24px rgba(255,255,255,.78) inset,
+        0 -8px 12px rgba(255,255,255,.28) inset,
+        0 20px 40px rgba(255,79,163,.18),
+        0 10px 24px rgba(0,0,0,.12);
+    }
+
+    .photo-card::before{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:18px;
+      background:linear-gradient(135deg, rgba(255,255,255,.28), transparent 45%, rgba(255,255,255,.12) 65%, transparent 100%);
+      pointer-events:none;
+      z-index:2;
+    }
+
+    /* “cinta” scrapbook */
+    .tape{
+      position:absolute;
+      top:-10px;
+      left:50%;
+      transform:translateX(-50%) rotate(var(--tape-rot, -3deg));
+      width:84px;
+      height:28px;
+      border-radius:8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.2)),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.25) 0 8px, rgba(255,255,255,.1) 8px 16px);
+      box-shadow:0 6px 10px rgba(0,0,0,.08);
+      opacity:.9;
+      z-index:5;
+      backdrop-filter: blur(1px);
+    }
+
+    .photo-frame{
+      position:relative;
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      aspect-ratio: 1 / 1;
+      box-shadow:0 6px 14px rgba(0,0,0,.08);
+      z-index:1;
+    }
+
+    .photo-frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:transform .45s ease;
+    }
+
+    .photo-card:hover .photo-frame img{
+      transform:scale(1.06);
+    }
+
+    .photo-card .caption{
+      position:relative;
+      z-index:3;
+      text-align:center;
+      margin-top:12px;
+      font-weight:800;
+      color:var(--hotpink);
+      font-size:1rem;
+      letter-spacing:.2px;
+      text-shadow:0 1px 0 #fff;
+    }
+
+    .photo-card .subcaption{
+      position:relative;
+      z-index:3;
+      text-align:center;
+      margin-top:4px;
+      font-size:.88rem;
+      color:#8a7082;
+      line-height:1.3;
+    }
+
+    /* sticker pegado a la foto */
+    .photo-sticker{
+      position:absolute;
+      z-index:6;
+      font-size:28px;
+      filter:drop-shadow(0 6px 8px rgba(0,0,0,.12));
+      transform:rotate(var(--srot, 0deg));
+      user-select:none;
+      pointer-events:none;
+    }
+
+    .ps1{ top:-14px; right:-10px; --srot:12deg; }
+    .ps2{ bottom:38px; left:-10px; --srot:-10deg; }
+    .ps3{ top:18px; left:-12px; --srot:-14deg; }
+    .ps4{ bottom:42px; right:-8px; --srot:10deg; }
+
+    /* POSICIONES scrapbook */
+    .c1{ grid-column:1 / span 4;  transform:rotate(-5deg); --tilt:-5deg; margin-top:18px; }
+    .c2{ grid-column:5 / span 4;  transform:rotate(4deg);  --tilt:4deg;  margin-top:0; }
+    .c3{ grid-column:9 / span 4;  transform:rotate(-3deg); --tilt:-3deg; margin-top:24px; }
+
+    .c4{ grid-column:2 / span 4;  transform:rotate(3deg);  --tilt:3deg;  margin-top:-6px; }
+    .c5{ grid-column:6 / span 3;  transform:rotate(-2deg); --tilt:-2deg; margin-top:28px; }
+    .c6{ grid-column:9 / span 3;  transform:rotate(5deg);  --tilt:5deg;  margin-top:6px; }
+
+    .c7{ grid-column:2 / span 4;  transform:rotate(-4deg); --tilt:-4deg; margin-top:8px; }
+    .c8{ grid-column:7 / span 4;  transform:rotate(3deg);  --tilt:3deg;  margin-top:-4px; }
+
+    /* DECORACIONES ENTRE FOTOS */
+    .decor{
+      position:absolute;
+      pointer-events:none;
+      z-index:0;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.08));
+      user-select:none;
+    }
+
+    .d1{ top:160px; left:44%; font-size:42px; transform:rotate(-12deg);}
+    .d2{ top:470px; left:11%; font-size:38px; transform:rotate(8deg);}
+    .d3{ top:530px; right:8%; font-size:40px; transform:rotate(-10deg);}
+    .d4{ bottom:120px; left:47%; font-size:46px; transform:rotate(4deg);}
+
+    /* BOTON VOLVER */
+    .back{
+      text-align:center;
+      margin:34px 0 10px;
+    }
+
+    .back a{
+      display:inline-block;
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.2px;
+      padding:14px 26px;
+      border-radius:999px;
+      background:
+        linear-gradient(180deg, #ff88c5, #ff5cad);
+      box-shadow:
+        0 5px 0 #d94c91,
+        0 10px 24px rgba(255,79,163,.22),
+        0 5px 14px rgba(255,255,255,.28) inset;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+
+    .back a:hover{
+      transform:translateY(-2px);
+    }
+
+    .back a:active{
+      transform:translateY(3px);
+      box-shadow:
+        0 2px 0 #d94c91,
+        0 8px 16px rgba(255,79,163,.18),
+        0 5px 14px rgba(255,255,255,.28) inset;
+    }
+
+    /* OVERLAY STORY */
+    .storyOverlay{
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,.12), transparent 30%),
+        rgba(20, 10, 24, .88);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:9999;
+      animation:fadeIn .28s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .storyBox{
+      position:relative;
+      width:min(92vw, 540px);
+      max-height:92vh;
+      border-radius:34px;
+      padding:14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,245,250,.88));
+      border:3px solid rgba(255,255,255,.85);
+      box-shadow:
+        0 14px 40px rgba(0,0,0,.25),
+        0 12px 30px rgba(255,79,163,.12),
+        0 8px 20px rgba(255,255,255,.3) inset;
+      overflow:hidden;
+      transform:scale(.82);
+      animation:popStory .35s ease forwards;
+    }
+
+    .storyTopBar{
+      display:flex;
+      gap:6px;
+      margin:4px 4px 12px;
+    }
+
+    .storyProgress{
+      flex:1;
+      height:6px;
+      border-radius:999px;
+      background:rgba(255,255,255,.55);
+      overflow:hidden;
+      box-shadow:0 2px 6px rgba(0,0,0,.08) inset;
+    }
+
+    .storyProgress span{
+      display:block;
+      height:100%;
+      width:100%;
+      background:linear-gradient(90deg, #ff89c8, #ffd67a, #bfe9ff);
+      animation:storybar 5.2s linear forwards;
+      transform-origin:left;
+    }
+
+    .storyImageWrap{
+      position:relative;
+      border-radius:26px;
+      overflow:hidden;
+      background:#fff;
+      aspect-ratio: 9 / 12;
+      box-shadow:0 10px 18px rgba(0,0,0,.12);
+    }
+
+    .storyImageWrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .storyGloss{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.30), transparent 40%, rgba(255,255,255,.10) 65%, transparent 100%);
+      pointer-events:none;
+    }
+
+    .storyCaption{
+      text-align:center;
+      padding:14px 12px 8px;
+    }
+
+    .storyCaption h3{
+      margin:0;
+      font-size:1.35rem;
+      color:var(--hotpink);
+      text-shadow:0 1px 0 #fff;
+    }
+
+    .storyCaption p{
+      margin:8px 0 0;
+      color:#7f6577;
+      line-height:1.4;
+      font-size:1rem;
+    }
+
+    .closeBtn{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:50%;
+      background:rgba(255,255,255,.88);
+      color:#ff5aa9;
+      font-size:22px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 6px 16px rgba(0,0,0,.12);
+      z-index:20;
+    }
+
+    .storySticker{
+      position:absolute;
+      font-size:34px;
+      filter:drop-shadow(0 8px 10px rgba(0,0,0,.12));
+      pointer-events:none;
+      z-index:8;
+    }
+
+    .ss1{ top:60px; left:-6px; transform:rotate(-12deg);}
+    .ss2{ top:84px; right:-6px; transform:rotate(14deg);}
+    .ss3{ bottom:86px; left:-4px; transform:rotate(10deg);}
+    .ss4{ bottom:120px; right:-4px; transform:rotate(-10deg);}
+
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+
+    @keyframes popStory{
+      from{ transform:scale(.82) translateY(10px); opacity:.5; }
+      to{ transform:scale(1) translateY(0); opacity:1; }
+    }
+
+    @keyframes storybar{
+      from{ transform:scaleX(0); }
+      to{ transform:scaleX(1); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .scrapbook{
+        grid-template-columns:repeat(2, 1fr);
+      }
+
+      .c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8{
+        grid-column:auto;
+        margin-top:0;
+      }
+
+      .c1{transform:rotate(-3deg); --tilt:-3deg;}
+      .c2{transform:rotate(3deg); --tilt:3deg;}
+      .c3{transform:rotate(-2deg); --tilt:-2deg;}
+      .c4{transform:rotate(2deg); --tilt:2deg;}
+      .c5{transform:rotate(-2deg); --tilt:-2deg;}
+      .c6{transform:rotate(3deg); --tilt:3deg;}
+      .c7{transform:rotate(-3deg); --tilt:-3deg;}
+      .c8{transform:rotate(2deg); --tilt:2deg;}
+
+      .decor{display:none;}
+    }
+
+    @media (max-width: 640px){
+      .page{ padding:18px 12px 40px; }
+
+      .hero{
+        padding:22px 14px 18px;
+        border-radius:28px;
+      }
+
+      .scrapbook{
+        grid-template-columns:1fr;
+        gap:16px;
+      }
+
+      .photo-card{
+        transform:none !important;
+      }
+
+      .photo-card:hover{
+        transform:translateY(-4px) scale(1.01) !important;
+      }
+
+      .storyBox{
+        width:min(95vw, 520px);
+        border-radius:28px;
+      }
+
+      .storyImageWrap{
+        aspect-ratio: 4 / 5;
+      }
+
+      .floating-stickers .sticker{
+        font-size:26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Stickers flotantes generales -->
+  <div class="floating-stickers" aria-hidden="true">
+    <div class="sticker s1" style="--rot:-8deg;">🎀</div>
+    <div class="sticker s2" style="--rot:10deg;">🍭</div>
+    <div class="sticker s3" style="--rot:-12deg;">⭐</div>
+    <div class="sticker s4" style="--rot:9deg;">🧁</div>
+    <div class="sticker s5" style="--rot:-6deg;">💖</div>
+    <div class="sticker s6" style="--rot:12deg;">🎈</div>
+    <div class="sticker s7" style="--rot:-4deg;">✨</div>
+    <div class="sticker s8" style="--rot:8deg;">🍬</div>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <h1>📸 Mis fotos favoritas</h1>
+      <p>
+        Un mini scrapbook brillante del cumple de <strong>Matías</strong> 💖  
+        Tocá una foto para abrirla en modo historia mágica.
+      </p>
+
+      <div class="mini-badges">
+        <div class="mini-badge">💗 Candy Glossy</div>
+        <div class="mini-badge">📷 Álbum scrapbook</div>
+        <div class="mini-badge">✨ Recuerdos del cumple</div>
+      </div>
+    </section>
+
+    <section class="scrapbook-wrap">
+      <!-- decoraciones internas -->
+      <div class="decor d1">☁️</div>
+      <div class="decor d2">🍬</div>
+      <div class="decor d3">✨</div>
+      <div class="decor d4">🎀</div>
+
+      <div class="scrapbook">
+
+        <!-- FOTO 1 -->
+        <article class="photo-card c1"
+          onclick="openStory('foto1.png','Llegada al cumple 🎉','El comienzo de una tarde llena de colores, risas y sorpresas.')">
+          <div class="tape" style="--tape-rot:-4deg;"></div>
+          <div class="photo-sticker ps1">🎈</div>
+          <div class="photo-frame">
+            <img src="foto1.png" alt="Foto 1 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Llegada al cumple 🎉</div>
+          <div class="subcaption">Todo empieza acá 💙</div>
+        </article>
+
+        <!-- FOTO 2 -->
+        <article class="photo-card c2"
+          onclick="openStory('foto2.png','Amigos y risas 💕','Momentos compartidos con quienes hicieron especial el día.')">
+          <div class="tape" style="--tape-rot:3deg;"></div>
+          <div class="photo-sticker ps2">🍭</div>
+          <div class="photo-frame">
+            <img src="foto2.png" alt="Foto 2 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Amigos y risas 💕</div>
+          <div class="subcaption">Una fiesta con mucha alegría</div>
+        </article>
+
+        <!-- FOTO 3 -->
+        <article class="photo-card c3"
+          onclick="openStory('foto3.png','Juegos y diversión 🎯','Una de esas fotos que guardan el momento más inquieto y feliz de la fiesta.')">
+          <div class="tape" style="--tape-rot:-2deg;"></div>
+          <div class="photo-sticker ps1">⭐</div>
+          <div class="photo-frame">
+            <img src="foto3.png" alt="Foto 3 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Juegos y diversión 🎯</div>
+          <div class="subcaption">Energía cumpleañera total</div>
+        </article>
+
+        <!-- FOTO 4 -->
+        <article class="photo-card c4"
+          onclick="openStory('foto4.png','Momentos juntos ✨','Una postal de esas que después se vuelven recuerdo favorito.')">
+          <div class="tape" style="--tape-rot:4deg;"></div>
+          <div class="photo-sticker ps3">💖</div>
+          <div class="photo-frame">
+            <img src="foto4.png" alt="Foto 4 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Momentos juntos ✨</div>
+          <div class="subcaption">Risas para volver a mirar</div>
+        </article>
+
+        <!-- FOTO 5 -->
+        <article class="photo-card c5"
+          onclick="openStory('foto5.png','La torta 🎂','El momento más rico y esperado del festejo.')">
+          <div class="tape" style="--tape-rot:-5deg;"></div>
+          <div class="photo-sticker ps4">🧁</div>
+          <div class="photo-frame">
+            <img src="foto5.png" alt="Foto 5 del cumpleaños de Matías">
+          </div>
+          <div class="caption">La torta 🎂</div>
+          <div class="subcaption">Dulce, brillante y feliz</div>
+        </article>
+
+        <!-- FOTO 6 -->
+        <article class="photo-card c6"
+          onclick="openStory('foto6.png','Soplando las velitas 🕯️','Ese segundo mágico donde se pide el deseo.')">
+          <div class="tape" style="--tape-rot:2deg;"></div>
+          <div class="photo-sticker ps2">✨</div>
+          <div class="photo-frame">
+            <img src="foto6.png" alt="Foto 6 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Las velitas 🕯️</div>
+          <div class="subcaption">Un deseo en el aire</div>
+        </article>
+
+        <!-- FOTO 7 -->
+        <article class="photo-card c7"
+          onclick="openStory('foto7.png','Regalos y sorpresas 🎁','Otra escena para guardar, porque el cumple también está hecho de pequeños asombros.')">
+          <div class="tape" style="--tape-rot:-3deg;"></div>
+          <div class="photo-sticker ps3">🎁</div>
+          <div class="photo-frame">
+            <img src="foto7.png" alt="Foto 7 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Regalos y sorpresas 🎁</div>
+          <div class="subcaption">Caritas felices por todos lados</div>
+        </article>
+
+        <!-- FOTO 8 -->
+        <article class="photo-card c8"
+          onclick="openStory('foto8.png','Final mágico 💖','El cierre del álbum, con toda la ternura y el brillo del recuerdo.')">
+          <div class="tape" style="--tape-rot:3deg;"></div>
+          <div class="photo-sticker ps4">🎀</div>
+          <div class="photo-frame">
+            <img src="foto8.png" alt="Foto 8 del cumpleaños de Matías">
+          </div>
+          <div class="caption">Final mágico 💖</div>
+          <div class="subcaption">Un recuerdo para volver siempre</div>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="back">
+      <a href="index.html">🏠 Volver al inicio</a>
+    </div>
+  </main>
+
+  <!-- OVERLAY STORY -->
+  <div class="storyOverlay" id="overlay">
+    <div class="storyBox">
+      <button class="closeBtn" onclick="closeStory()" aria-label="Cerrar">✕</button>
+
+      <div class="storySticker ss1">🎀</div>
+      <div class="storySticker ss2">✨</div>
+      <div class="storySticker ss3">🍭</div>
+      <div class="storySticker ss4">💖</div>
+
+      <div class="storyTopBar">
+        <div class="storyProgress"><span id="bar1"></span></div>
+      </div>
+
+      <div class="storyImageWrap">
+        <img id="storyImg" src="" alt="Foto ampliada">
+        <div class="storyGloss"></div>
+      </div>
+
+      <div class="storyCaption">
+        <h3 id="storyTitle">Título</h3>
+        <p id="storyText">Texto</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SONIDO -->
+  <audio id="sound" src="click.mp3" preload="auto"></audio>
+
+  <script>
+    const overlay = document.getElementById("overlay");
+    const storyImg = document.getElementById("storyImg");
+    const storyTitle = document.getElementById("storyTitle");
+    const storyText = document.getElementById("storyText");
+    const sound = document.getElementById("sound");
+    const bar1 = document.getElementById("bar1");
+
+    function restartBar(){
+      const parent = bar1.parentNode;
+      const newBar = bar1.cloneNode(true);
+      parent.replaceChild(newBar, bar1);
+    }
+
+    function openStory(img, title, text){
+      storyImg.src = img;
+      storyTitle.textContent = title;
+      storyText.textContent = text;
+
+      overlay.style.display = "flex";
+      document.body.style.overflow = "hidden";
+
+      // reinicia barra visual
+      const progress = document.querySelector(".storyProgress");
+      progress.innerHTML = '<span style="display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff89c8,#ffd67a,#bfe9ff);animation:storybar 5.2s linear forwards;transform-origin:left;"></span>';
+
+      // sonido
+      try{
+        sound.currentTime = 0;
+        sound.play();
+      }catch(e){}
+
+      // cierre automático tipo story
+      clearTimeout(window.storyTimer);
+      window.storyTimer = setTimeout(() => {
+        closeStory();
+      }, 5200);
+    }
+
+    function closeStory(){
+      overlay.style.display = "none";
+      document.body.style.overflow = "";
+      clearTimeout(window.storyTimer);
+    }
+
+    // cerrar tocando fuera de la caja
+    overlay.addEventListener("click", function(e){
+      if(e.target === overlay){
+        closeStory();
+      }
+    });
+
+    // cerrar con ESC
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && overlay.style.display === "flex"){
+        closeStory();
+      }
+    });
+  </script>
+
+</body>
+</html>
