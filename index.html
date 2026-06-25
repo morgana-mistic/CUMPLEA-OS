@@ -1,260 +1,193 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cumple de Matías</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cumple de Matías</title>
 
-  <style>
-    :root{
-      --bg-top:#edf8ff;
-      --bg-mid:#dff3ff;
-      --bg-bottom:#f6fbff;
+<style>
+:root{
+  --text:#5a2b5f;
+  --muted:#8a6d8e;
+}
 
-      --text:#5a2b5f;
-      --muted:#8a6d8e;
+*{box-sizing:border-box;margin:0;padding:0;}
 
-      --shadow-main:0 16px 36px rgba(120, 170, 220, .18);
-      --shadow-soft:0 10px 24px rgba(120, 170, 220, .14);
-      --shadow-balloon:0 14px 24px rgba(140, 110, 180, .20);
+body{
+  font-family:Arial, sans-serif;
+  background:linear-gradient(180deg,#edf8ff,#f6fbff);
+  padding:18px;
+}
 
-      --pink1:#ff90cf;
-      --pink2:#f45bb0;
+/* CONTENEDOR */
+.page{
+  max-width:520px;
+  margin:auto;
+}
 
-      --blue1:#8ce5ff;
-      --blue2:#4dcdf8;
+/* HERO SOLO IMAGEN */
+.hero{
+  background:#fff;
+  border-radius:28px;
+  padding:10px;
+  box-shadow:0 16px 36px rgba(120,170,220,.18);
+}
 
-      --violet1:#d2b7ff;
-      --violet2:#a873ff;
+.hero img{
+  width:100%;
+  border-radius:20px;
+  display:block;
+}
 
-      --orange1:#ffc57f;
-      --orange2:#ffa246;
+/* ZONA GLOBOS (DEBAJO, NO ENCIMA) */
+.balloons{
+  margin-top:-40px; /* efecto de "subida" controlada */
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:14px;
+  padding:0 6px;
+}
 
-      --mint1:#9cf0cf;
-      --mint2:#53d8a8;
-    }
+/* ITEM */
+.balloon{
+  width:48%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-decoration:none;
+}
 
-    *{box-sizing:border-box;margin:0;padding:0;}
+/* GLOBO */
+.shape{
+  width:82px;
+  height:98px;
+  border-radius:50% 50% 45% 45%;
+  position:relative;
+  box-shadow:0 12px 22px rgba(0,0,0,.15);
+  animation:float 4.5s ease-in-out infinite;
+}
 
-    body{
-      font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;
-      color:var(--text);
-      min-height:100vh;
-      padding:18px 12px 26px;
-      background:
-        radial-gradient(circle at 18% 12%, rgba(255,255,255,.95) 0 5%, transparent 6%),
-        radial-gradient(circle at 82% 18%, rgba(255,255,255,.9) 0 4%, transparent 5%),
-        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 52%, var(--bg-bottom) 100%);
-      animation: fadeIn 0.8s ease-out;
-    }
+.shape::after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:26px;
+  background:#999;
+  left:50%;
+  top:100%;
+  transform:translateX(-50%);
+}
 
-    @keyframes fadeIn{
-      from{opacity:0; transform:translateY(8px);}
-      to{opacity:1; transform:translateY(0);}
-    }
+/* ANIMACIÓN REAL */
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
 
-    .page{
-      width:min(100%, 520px);
-      margin:0 auto;
-    }
+/* COLORES */
+.music .shape{background:linear-gradient(180deg,#ff90cf,#f45bb0);}
+.fotos .shape{background:linear-gradient(180deg,#8ce5ff,#4dcdf8);}
+.mensajes .shape{background:linear-gradient(180deg,#d2b7ff,#a873ff);}
+.invitados .shape{background:linear-gradient(180deg,#ffc57f,#ffa246);}
+.subir .shape{background:linear-gradient(180deg,#9cf0cf,#53d8a8);}
 
-    .hero{
-      position:relative;
-      background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.90));
-      border-radius:34px;
-      box-shadow:var(--shadow-main);
-      padding:14px;
-      overflow:hidden;
-    }
+/* ETIQUETAS MEJORADAS */
+.tag{
+  margin-top:6px;
+  width:100%;
+  padding:10px;
+  border-radius:14px;
+  text-align:center;
+  font-size:.78rem;
+  font-weight:800;
+  color:#fff;
+  box-shadow:0 8px 16px rgba(0,0,0,.12);
+}
 
-    .hero-inner{position:relative;}
+/* colores tags */
+.music .tag{background:#f45bb0;}
+.fotos .tag{background:#4dcdf8;}
+.mensajes .tag{background:#a873ff;}
+.invitados .tag{background:#ffa246;}
+.subir .tag{background:#53d8a8;}
 
-    .hero-image-wrap{
-      position:relative;
-      border-radius:28px;
-      background:#fff;
-      padding:10px;
-      box-shadow:var(--shadow-soft);
-    }
+/* FOOTER LIMPIO */
+.footer{
+  margin-top:18px;
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+}
 
-    .hero-image{
-      width:100%;
-      border-radius:22px;
-      display:block;
-    }
+.brand{
+  margin-top:10px;
+  text-align:center;
+  font-size:.75rem;
+  color:#9aa6b7;
+}
 
-    /* ===== GLOBOS NUEVA DISTRIBUCIÓN ===== */
-    .balloons{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      top:45%; /* 👈 clave: desde mitad de imagen hacia abajo */
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      align-items:flex-end;
-      padding:10px 10px 14px;
-      gap:12px;
-      pointer-events:none;
-    }
+.brand a{
+  color:inherit;
+  text-decoration:none;
+}
 
-    .balloon-item{
-      width:42%;
-      max-width:160px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:8px;
-      text-decoration:none;
-      pointer-events:auto;
-    }
-
-    .balloon-shape{
-      position:relative;
-      width:86px;
-      height:102px;
-      border-radius:52% 52% 48% 48%;
-      box-shadow:var(--shadow-balloon);
-      border:2px solid rgba(255,255,255,.45);
-      transition:.2s ease;
-    }
-
-    .balloon-shape::before{
-      content:"";
-      position:absolute;
-      width:26px;
-      height:14px;
-      top:14px;
-      left:16px;
-      background:rgba(255,255,255,.35);
-      border-radius:50%;
-      transform:rotate(-18deg);
-    }
-
-    .string{
-      position:absolute;
-      left:50%;
-      top:100%;
-      width:2px;
-      height:28px;
-      transform:translateX(-50%);
-      background:rgba(120,120,140,.35);
-    }
-
-    /* ===== ETIQUETAS AHORA CON COLOR ===== */
-    .tag{
-      min-height:40px;
-      width:100%;
-      padding:8px 10px;
-      border-radius:16px;
-      text-align:center;
-      font-size:.76rem;
-      font-weight:800;
-      color:#fff;
-      box-shadow:0 10px 18px rgba(0,0,0,.12);
-    }
-
-    .music .tag{background:linear-gradient(180deg,var(--pink1),var(--pink2));}
-    .fotos .tag{background:linear-gradient(180deg,var(--blue1),var(--blue2));}
-    .mensajes .tag{background:linear-gradient(180deg,var(--violet1),var(--violet2));}
-    .invitados .tag{background:linear-gradient(180deg,var(--orange1),var(--orange2));}
-    .subir .tag{background:linear-gradient(180deg,var(--mint1),var(--mint2));}
-
-    /* colores globos */
-    .music .balloon-shape{background:linear-gradient(180deg,var(--pink1),var(--pink2));}
-    .fotos .balloon-shape{background:linear-gradient(180deg,var(--blue1),var(--blue2));}
-    .mensajes .balloon-shape{background:linear-gradient(180deg,var(--violet1),var(--violet2));}
-    .invitados .balloon-shape{background:linear-gradient(180deg,var(--orange1),var(--orange2));}
-    .subir .balloon-shape{background:linear-gradient(180deg,var(--mint1),var(--mint2));}
-
-    .balloon-item:hover .balloon-shape{
-      transform:translateY(-6px) scale(1.04);
-    }
-
-    /* desktop ajuste suave */
-    @media (min-width:520px){
-      .balloons{
-        top:48%;
-        padding:14px;
-        gap:14px;
-      }
-      .balloon-item{width:30%;}
-    }
-
-    .footer-note{
-      margin-top:18px;
-      text-align:center;
-      font-size:.9rem;
-      color:var(--muted);
-    }
-
-    .brand-signature{
-      margin-top:10px;
-      text-align:center;
-      font-size:.72rem;
-      color:#9aa6b7;
-    }
-
-    .brand-signature a{
-      color:inherit;
-      text-decoration:none;
-    }
-  </style>
+/* MOBILE */
+@media(max-width:520px){
+  .balloon{width:48%;}
+}
+</style>
 </head>
 
 <body>
-<main class="page">
-  <section class="hero">
 
-    <div class="hero-inner">
+<div class="page">
 
-      <div class="hero-image-wrap">
-        <img src="PORTADA1.png" class="hero-image" alt="Portada">
+  <div class="hero">
+    <img src="PORTADA1.png" alt="portada cumpleaños">
+  </div>
 
-        <div class="balloons">
+  <!-- GLOBOS YA NO ENCIMA -->
+  <div class="balloons">
 
-          <a href="musica.html" class="balloon-item music">
-            <span class="balloon-shape"><span class="string"></span></span>
-            <span class="tag">Dale play a mi fiesta</span>
-          </a>
+    <a href="musica.html" class="balloon music">
+      <div class="shape"></div>
+      <div class="tag">Dale play a mi fiesta</div>
+    </a>
 
-          <a href="fotos.html" class="balloon-item fotos">
-            <span class="balloon-shape"><span class="string"></span></span>
-            <span class="tag">Mis fotos favoritas</span>
-          </a>
+    <a href="fotos.html" class="balloon fotos">
+      <div class="shape"></div>
+      <div class="tag">Mis fotos favoritas</div>
+    </a>
 
-          <a href="mensajes.html" class="balloon-item mensajes">
-            <span class="balloon-shape"><span class="string"></span></span>
-            <span class="tag">Dejame un mensajito</span>
-          </a>
+    <a href="mensajes.html" class="balloon mensajes">
+      <div class="shape"></div>
+      <div class="tag">Dejame un mensajito</div>
+    </a>
 
-          <a href="invitados.html" class="balloon-item invitados">
-            <span class="balloon-shape"><span class="string"></span></span>
-            <span class="tag">Quienes compartieron mi día</span>
-          </a>
+    <a href="invitados.html" class="balloon invitados">
+      <div class="shape"></div>
+      <div class="tag">Quienes compartieron mi día</div>
+    </a>
 
-          <a href="subi-tu-foto.html" class="balloon-item subir">
-            <span class="balloon-shape"><span class="string"></span></span>
-            <span class="tag">Compartí tu foto conmigo</span>
-          </a>
+    <a href="subi-tu-foto.html" class="balloon subir">
+      <div class="shape"></div>
+      <div class="tag">Compartí tu foto conmigo</div>
+    </a>
 
-        </div>
+  </div>
 
-      </div>
+  <div class="footer">
+    Gracias por acompañarme en este día tan especial 💖
+  </div>
 
-      <p class="footer-note">
-        Gracias por acompañarme en este día tan especial 💖
-      </p>
+  <div class="brand">
+    <a href="https://wa.me/5493854118422" target="_blank">
+      Diseño digital por MORGANA TECNO
+    </a>
+  </div>
 
-      <p class="brand-signature">
-        <a href="https://wa.me/5493854118422" target="_blank">
-          Diseño digital por MORGANA TECNO
-        </a>
-      </p>
+</div>
 
-    </div>
-  </section>
-</main>
 </body>
 </html>
