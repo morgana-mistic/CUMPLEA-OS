@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego de Globos 🎈</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:Arial;
+  background:linear-gradient(180deg,#fff6fb,#eaf8ff);
+}
+
+/* marcador */
+.hud{
+  position:fixed;
+  top:10px;
+  left:10px;
+  background:#fff;
+  padding:10px 14px;
+  border-radius:12px;
+  font-weight:bold;
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+  z-index:10;
+}
+
+/* área */
+.game{
+  position:relative;
+  width:100vw;
+  height:100vh;
+}
+
+/* globos */
+.balloon{
+  position:absolute;
+  width:60px;
+  height:75px;
+  border-radius:50%;
+  cursor:pointer;
+
+  box-shadow:inset -6px -10px 14px rgba(0,0,0,.2),
+             inset 6px 10px 14px rgba(255,255,255,.4),
+             0 10px 15px rgba(0,0,0,.15);
+
+  animation:floatUp linear forwards;
+}
+
+.balloon::after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:20px;
+  background:rgba(120,120,120,.4);
+  left:50%;
+  top:100%;
+  transform:translateX(-50%);
+}
+
+/* colores */
+.c1{background:linear-gradient(180deg,#ff9ad5,#f04aa8);}
+.c2{background:linear-gradient(180deg,#9fe7ff,#3fbef0);}
+.c3{background:linear-gradient(180deg,#d7b7ff,#9a6bff);}
+.c4{background:linear-gradient(180deg,#ffd29b,#ff9b3d);}
+.c5{background:linear-gradient(180deg,#a7f5d0,#43d6a2);}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-120px);}
+}
+
+/* confetti */
+.confetti{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:2px;
+  animation:boom 800ms ease-out forwards;
+}
+
+@keyframes boom{
+  0%{transform:translate(0,0);opacity:1;}
+  100%{transform:translate(var(--x),var(--y));opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hud">
+  Puntos: <span id="score">0</span>
+</div>
+
+<div class="game" id="game"></div>
+
+<script>
+let score = 0;
+const game = document.getElementById("game");
+const scoreEl = document.getElementById("score");
+
+const colors = ["c1","c2","c3","c4","c5"];
+
+function spawn(){
+  const b = document.createElement("div");
+  b.classList.add("balloon");
+
+  b.classList.add(colors[Math.floor(Math.random()*colors.length)]);
+
+  b.style.left = Math.random()*90 + "%";
+
+  const time = 4 + Math.random()*3;
+  b.style.animationDuration = time + "s";
+
+  b.onclick = () => pop(b);
+
+  game.appendChild(b);
+
+  setTimeout(()=>b.remove(), time*1000);
+}
+
+function pop(balloon){
+  score++;
+  scoreEl.textContent = score;
+
+  const rect = balloon.getBoundingClientRect();
+  createConfetti(rect.left, rect.top);
+
+  balloon.remove();
+}
+
+function createConfetti(x,y){
+  for(let i=0;i<12;i++){
+    const c = document.createElement("div");
+    c.classList.add("confetti");
+
+    c.style.left = x + "px";
+    c.style.top = y + "px";
+
+    c.style.background = ["#ff6fb1","#4dcdf8","#ffa246","#a873ff","#53d8a8"][i%5];
+
+    const dx = (Math.random()*200 - 100) + "px";
+    const dy = (Math.random()*200 - 100) + "px";
+
+    c.style.setProperty("--x", dx);
+    c.style.setProperty("--y", dy);
+
+    document.body.appendChild(c);
+
+    setTimeout(()=>c.remove(),800);
+  }
+}
+
+setInterval(spawn, 700);
+</script>
+
+</body>
+</html>
