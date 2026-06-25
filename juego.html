@@ -18,18 +18,19 @@
       linear-gradient(180deg,#fff7fc,#eef9ff);
   }
 
-  /* capa suave de confeti de fondo */
+  /* confeti suave de fondo */
   body::before{
     content:"";
     position:fixed;
     inset:0;
     pointer-events:none;
+    z-index:0;
     background:
-      radial-gradient(circle at 10% 20%, rgba(255,105,180,.22) 2px, transparent 3px),
-      radial-gradient(circle at 30% 70%, rgba(77,205,248,.22) 2px, transparent 3px),
-      radial-gradient(circle at 70% 30%, rgba(255,162,70,.22) 2px, transparent 3px),
-      radial-gradient(circle at 90% 60%, rgba(163,120,255,.22) 2px, transparent 3px),
-      radial-gradient(circle at 50% 50%, rgba(83,216,168,.22) 2px, transparent 3px);
+      radial-gradient(circle at 10% 20%, rgba(255,105,180,.20) 2px, transparent 3px),
+      radial-gradient(circle at 30% 70%, rgba(77,205,248,.20) 2px, transparent 3px),
+      radial-gradient(circle at 70% 30%, rgba(255,162,70,.20) 2px, transparent 3px),
+      radial-gradient(circle at 90% 60%, rgba(163,120,255,.20) 2px, transparent 3px),
+      radial-gradient(circle at 50% 50%, rgba(83,216,168,.20) 2px, transparent 3px);
     opacity:.9;
   }
 
@@ -38,13 +39,25 @@
     top:14px;
     left:14px;
     z-index:20;
-    background:rgba(255,255,255,.92);
+    background:rgba(255,255,255,.94);
     border-radius:16px;
     padding:12px 16px;
     box-shadow:0 10px 24px rgba(0,0,0,.12);
     color:#6d4a76;
     font-weight:800;
     font-size:1rem;
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+
+  .goal-chip{
+    background:#fff3a7;
+    color:#8a6b00;
+    border-radius:999px;
+    padding:6px 10px;
+    font-size:.86rem;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);
   }
 
   .back-btn{
@@ -53,7 +66,7 @@
     right:14px;
     z-index:20;
     text-decoration:none;
-    background:rgba(255,255,255,.92);
+    background:rgba(255,255,255,.94);
     color:#6d4a76;
     font-weight:800;
     padding:12px 16px;
@@ -71,6 +84,7 @@
     width:100vw;
     height:100vh;
     overflow:hidden;
+    z-index:1;
   }
 
   .title{
@@ -79,13 +93,14 @@
     left:50%;
     transform:translateX(-50%);
     z-index:20;
-    background:rgba(255,255,255,.86);
+    background:rgba(255,255,255,.88);
     color:#8a5b92;
     padding:10px 18px;
     border-radius:999px;
     font-size:.95rem;
     font-weight:800;
     box-shadow:0 8px 18px rgba(0,0,0,.10);
+    text-align:center;
   }
 
   .hint{
@@ -94,12 +109,13 @@
     left:50%;
     transform:translateX(-50%);
     z-index:20;
-    background:rgba(255,255,255,.86);
+    background:rgba(255,255,255,.88);
     color:#8a6d8e;
     padding:10px 16px;
     border-radius:999px;
     font-size:.9rem;
     box-shadow:0 8px 18px rgba(0,0,0,.08);
+    text-align:center;
   }
 
   .balloon{
@@ -109,6 +125,7 @@
     border-radius:50% 50% 46% 46%;
     cursor:pointer;
     user-select:none;
+    z-index:2;
 
     box-shadow:
       inset -8px -14px 20px rgba(0,0,0,.16),
@@ -143,12 +160,29 @@
     transform:translateX(-50%);
   }
 
+  /* globos normales */
   .c1{background:linear-gradient(180deg,#ff9ad5,#f04aa8);}
   .c2{background:linear-gradient(180deg,#9fe7ff,#3fbef0);}
   .c3{background:linear-gradient(180deg,#d7b7ff,#9a6bff);}
   .c4{background:linear-gradient(180deg,#ffd29b,#ff9b3d);}
   .c5{background:linear-gradient(180deg,#a7f5d0,#43d6a2);}
   .c6{background:linear-gradient(180deg,#fff59d,#fbc02d);}
+
+  /* globo bonus dorado */
+  .bonus{
+    background:
+      radial-gradient(circle at 28% 22%, rgba(255,255,255,.75) 0 10%, transparent 11%),
+      linear-gradient(180deg,#fff7b8 0%, #ffd54f 45%, #f3b300 100%);
+    box-shadow:
+      inset -8px -14px 20px rgba(160,110,0,.22),
+      inset 8px 12px 16px rgba(255,255,255,.46),
+      0 14px 22px rgba(255,196,0,.22);
+    border:2px solid rgba(255,247,184,.75);
+  }
+
+  .bonus::before{
+    background:rgba(255,255,255,.46);
+  }
 
   @keyframes floatUp{
     from{ transform:translateY(110vh); }
@@ -162,6 +196,7 @@
     border-radius:2px;
     pointer-events:none;
     animation:boom 850ms ease-out forwards;
+    z-index:30;
   }
 
   @keyframes boom{
@@ -183,11 +218,171 @@
     background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,255,255,0));
     pointer-events:none;
     animation:flash .35s ease-out forwards;
+    z-index:25;
   }
 
   @keyframes flash{
     from{ transform:scale(.4); opacity:1; }
     to{ transform:scale(2.1); opacity:0; }
+  }
+
+  /* cartel +10 */
+  .bonus-label{
+    position:absolute;
+    transform:translate(-50%, -50%);
+    background:linear-gradient(180deg,#fff8c8,#ffd95c);
+    color:#8a5f00;
+    font-weight:900;
+    font-size:1rem;
+    padding:6px 10px;
+    border-radius:999px;
+    box-shadow:0 10px 18px rgba(255,196,0,.24);
+    z-index:40;
+    pointer-events:none;
+    animation:bonusPop .9s ease-out forwards;
+  }
+
+  @keyframes bonusPop{
+    0%{
+      opacity:0;
+      transform:translate(-50%, -20%) scale(.6);
+    }
+    20%{
+      opacity:1;
+      transform:translate(-50%, -50%) scale(1);
+    }
+    100%{
+      opacity:0;
+      transform:translate(-50%, -140%) scale(1.08);
+    }
+  }
+
+  /* overlay final */
+  .win-screen{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:rgba(255,244,251,.78);
+    backdrop-filter:blur(6px);
+  }
+
+  .win-screen.show{
+    display:flex;
+  }
+
+  .win-card{
+    width:min(92vw, 540px);
+    background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,248,252,.98));
+    border-radius:30px;
+    padding:28px 22px 24px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(160,120,170,.20);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .win-card::before,
+  .win-card::after{
+    content:"";
+    position:absolute;
+    border-radius:999px;
+    pointer-events:none;
+  }
+
+  .win-card::before{
+    width:150px;
+    height:150px;
+    top:-40px;
+    right:-30px;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,206,236,.75) 55%, rgba(255,154,213,.55) 100%);
+  }
+
+  .win-card::after{
+    width:120px;
+    height:120px;
+    bottom:-28px;
+    left:-20px;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(199,243,255,.78) 55%, rgba(159,231,255,.58) 100%);
+  }
+
+  .win-emoji{
+    font-size:3rem;
+    margin-bottom:10px;
+    position:relative;
+    z-index:2;
+  }
+
+  .win-title{
+    position:relative;
+    z-index:2;
+    color:#7d4a85;
+    font-size:1.7rem;
+    font-weight:900;
+    margin-bottom:10px;
+  }
+
+  .win-text{
+    position:relative;
+    z-index:2;
+    color:#7d6884;
+    font-size:1rem;
+    line-height:1.55;
+    margin-bottom:18px;
+  }
+
+  .win-score{
+    position:relative;
+    z-index:2;
+    display:inline-block;
+    background:linear-gradient(180deg,#fff6a9,#ffd76a);
+    color:#8a5f00;
+    font-weight:900;
+    font-size:1.05rem;
+    padding:10px 16px;
+    border-radius:999px;
+    margin-bottom:20px;
+    box-shadow:0 10px 20px rgba(255,210,90,.28);
+  }
+
+  .win-buttons{
+    position:relative;
+    z-index:2;
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  .win-btn{
+    border:none;
+    text-decoration:none;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:900;
+    font-size:1rem;
+    padding:12px 18px;
+    border-radius:16px;
+    box-shadow:0 10px 18px rgba(0,0,0,.10);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+
+  .win-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 22px rgba(0,0,0,.12);
+  }
+
+  .btn-replay{
+    background:linear-gradient(180deg,#ff9ad5,#f04aa8);
+    color:#fff;
+  }
+
+  .btn-home{
+    background:linear-gradient(180deg,#9fe7ff,#3fbef0);
+    color:#fff;
   }
 
   @media (max-width: 640px){
@@ -205,15 +400,23 @@
 
     .title{
       max-width:70%;
-      text-align:center;
       line-height:1.2;
+    }
+
+    .hud{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
+    }
+
+    .win-title{
+      font-size:1.45rem;
     }
   }
 </style>
 </head>
 <body>
 
-<!-- audios locales del repo -->
 <audio id="popSound" preload="auto">
   <source src="pop.mp3" type="audio/mpeg">
 </audio>
@@ -222,32 +425,57 @@
   <source src="arcade.mp3" type="audio/mpeg">
 </audio>
 
-<div class="hud">Puntos: <span id="score">0</span></div>
+<div class="hud">
+  <div>Puntos: <span id="score">0</span></div>
+  <div class="goal-chip">Meta: <span id="goalValue">50</span></div>
+</div>
 
 <a class="back-btn" href="index.html">← Volver</a>
 
-<div class="title">🎈 Reventá los globos 🎈</div>
+<div class="title">🎈 Reventá los globos del cumple 🎈</div>
 
 <div class="game" id="game"></div>
 
-<div class="hint">Tocá los globos para sumar puntos</div>
+<div class="hint">Llegá a 50 puntos para desbloquear la sorpresa 🎁</div>
+
+<div class="win-screen" id="winScreen">
+  <div class="win-card">
+    <div class="win-emoji">🎉🎂🎈</div>
+    <div class="win-title">¡GANASTE!</div>
+    <div class="win-text">
+      Matías te regala un abrazo gigante 💖<br>
+      gracias por venir a su cumple de 7 años.
+    </div>
+    <div class="win-score">Tu puntaje: <span id="finalScore">0</span></div>
+
+    <div class="win-buttons">
+      <button class="win-btn btn-replay" id="replayBtn">Jugar otra vez</button>
+      <a class="win-btn btn-home" href="index.html">Volver al cumple</a>
+    </div>
+  </div>
+</div>
 
 <script>
 let score = 0;
 let musicStarted = false;
+let gameEnded = false;
+let spawnInterval = null;
+
+const GOAL = 50;
 
 const game = document.getElementById("game");
 const scoreEl = document.getElementById("score");
+const finalScoreEl = document.getElementById("finalScore");
 const popSound = document.getElementById("popSound");
 const bgMusic = document.getElementById("bgMusic");
+const winScreen = document.getElementById("winScreen");
+const replayBtn = document.getElementById("replayBtn");
 
-const colors = ["c1","c2","c3","c4","c5","c6"];
+const normalColors = ["c1","c2","c3","c4","c5","c6"];
 
-/* volumen inicial */
-popSound.volume = 0.75;
+popSound.volume = 0.78;
 bgMusic.volume = 0.35;
 
-/* arranca música solo cuando el usuario interactúa */
 function startMusic(){
   if(!musicStarted){
     bgMusic.play().then(()=>{
@@ -258,40 +486,57 @@ function startMusic(){
   }
 }
 
-/* crea globos */
+/* crea globo: normal o bonus */
 function spawn(){
+  if(gameEnded) return;
+
   const b = document.createElement("div");
   b.classList.add("balloon");
-  b.classList.add(colors[Math.floor(Math.random()*colors.length)]);
 
-  /* posición horizontal */
+  /* probabilidad de globo dorado bonus */
+  const isBonus = Math.random() < 0.14; /* 14% */
+
+  if(isBonus){
+    b.classList.add("bonus");
+    b.dataset.points = "10";
+
+    /* más chico = más difícil */
+    const scale = 0.72 + Math.random() * 0.12;
+    b.style.transform = `scale(${scale})`;
+
+    /* más rápido = más difícil */
+    const time = 2.8 + Math.random() * 1.2;
+    b.style.animationDuration = time + "s";
+
+  }else{
+    b.classList.add(normalColors[Math.floor(Math.random()*normalColors.length)]);
+    b.dataset.points = "1";
+
+    const scale = 0.92 + Math.random() * 0.28;
+    b.style.transform = `scale(${scale})`;
+
+    const time = 4 + Math.random() * 3;
+    b.style.animationDuration = time + "s";
+  }
+
   b.style.left = Math.random() * 88 + "%";
-
-  /* velocidad aleatoria */
-  const time = 4 + Math.random() * 3;
-  b.style.animationDuration = time + "s";
-
-  /* tamaño levemente variable */
-  const scale = 0.9 + Math.random() * 0.35;
-  b.style.transform = `scale(${scale}) translateY(110vh)`;
-
   b.addEventListener("click", () => popBalloon(b));
 
   game.appendChild(b);
 
-  /* limpieza */
+  const durationMs = parseFloat(b.style.animationDuration) * 1000 + 100;
   setTimeout(()=>{
     if(b.parentNode){
       b.remove();
     }
-  }, time * 1000 + 100);
+  }, durationMs);
 }
 
-/* explotar globo */
 function popBalloon(balloon){
+  if(gameEnded) return;
+
   startMusic();
 
-  /* reiniciar sonido pop */
   try{
     popSound.pause();
     popSound.currentTime = 0;
@@ -300,33 +545,46 @@ function popBalloon(balloon){
     console.log("No se pudo reproducir pop:", err);
   }
 
-  score++;
+  const points = parseInt(balloon.dataset.points || "1", 10);
+  score += points;
   scoreEl.textContent = score;
 
   const rect = balloon.getBoundingClientRect();
   const x = rect.left + rect.width/2;
   const y = rect.top + rect.height/2;
 
-  createConfetti(x, y);
-  createFlash(x, y);
+  if(points === 10){
+    createConfetti(x, y, 28, true);
+    createFlash(x, y);
+    showBonusLabel(x, y, "+10");
+  }else{
+    createConfetti(x, y, 16, false);
+    createFlash(x, y);
+  }
 
   balloon.remove();
+
+  if(score >= GOAL){
+    winGame();
+  }
 }
 
-/* confeti */
-function createConfetti(x, y){
-  const confettiColors = ["#ff6fb1","#4dcdf8","#ffa246","#a873ff","#53d8a8","#fbc02d"];
+function createConfetti(x, y, amount = 16, isBonus = false){
+  const normalColors = ["#ff6fb1","#4dcdf8","#ffa246","#a873ff","#53d8a8","#fbc02d"];
+  const bonusColors  = ["#ffe27a","#ffd54f","#ffec9b","#fff4c4","#ffc107","#ffb300"];
+  const palette = isBonus ? bonusColors : normalColors;
 
-  for(let i=0; i<16; i++){
+  for(let i=0; i<amount; i++){
     const c = document.createElement("div");
     c.classList.add("confetti");
 
     c.style.left = x + "px";
     c.style.top = y + "px";
-    c.style.background = confettiColors[i % confettiColors.length];
+    c.style.background = palette[i % palette.length];
 
-    const dx = (Math.random() * 220 - 110) + "px";
-    const dy = (Math.random() * 220 - 110) + "px";
+    const spread = isBonus ? 320 : 240;
+    const dx = (Math.random() * spread - spread/2) + "px";
+    const dy = (Math.random() * spread - spread/2) + "px";
 
     c.style.setProperty("--x", dx);
     c.style.setProperty("--y", dy);
@@ -337,7 +595,6 @@ function createConfetti(x, y){
   }
 }
 
-/* flash visual al explotar */
 function createFlash(x, y){
   const f = document.createElement("div");
   f.classList.add("pop-flash");
@@ -348,8 +605,78 @@ function createFlash(x, y){
   setTimeout(()=>f.remove(), 350);
 }
 
-/* ritmo del juego */
-setInterval(spawn, 750);
+function showBonusLabel(x, y, text){
+  const label = document.createElement("div");
+  label.className = "bonus-label";
+  label.textContent = text;
+  label.style.left = x + "px";
+  label.style.top = y + "px";
+  document.body.appendChild(label);
+
+  setTimeout(()=>label.remove(), 900);
+}
+
+function finaleConfettiRain(){
+  const width = window.innerWidth;
+  const palette = ["#ff6fb1","#4dcdf8","#ffa246","#a873ff","#53d8a8","#fbc02d","#ffe27a","#ffd54f"];
+
+  for(let i = 0; i < 160; i++){
+    setTimeout(() => {
+      const c = document.createElement("div");
+      c.classList.add("confetti");
+
+      const startX = Math.random() * width;
+      c.style.left = startX + "px";
+      c.style.top = "-10px";
+      c.style.background = palette[i % palette.length];
+
+      const dx = (Math.random() * 180 - 90) + "px";
+      const dy = (Math.random() * 620 + 220) + "px";
+
+      c.style.setProperty("--x", dx);
+      c.style.setProperty("--y", dy);
+
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(), 1300);
+    }, i * 18);
+  }
+}
+
+function winGame(){
+  gameEnded = true;
+
+  if(spawnInterval){
+    clearInterval(spawnInterval);
+  }
+
+  document.querySelectorAll(".balloon").forEach(b => b.remove());
+
+  finalScoreEl.textContent = score;
+  finaleConfettiRain();
+
+  setTimeout(()=>{
+    winScreen.classList.add("show");
+  }, 500);
+}
+
+function restartGame(){
+  score = 0;
+  gameEnded = false;
+  scoreEl.textContent = score;
+  winScreen.classList.remove("show");
+
+  document.querySelectorAll(".balloon").forEach(b => b.remove());
+  document.querySelectorAll(".confetti").forEach(c => c.remove());
+  document.querySelectorAll(".bonus-label").forEach(c => c.remove());
+  document.querySelectorAll(".pop-flash").forEach(c => c.remove());
+
+  spawnInterval = setInterval(spawn, 750);
+}
+
+replayBtn.addEventListener("click", restartGame);
+
+/* arranque inicial */
+spawnInterval = setInterval(spawn, 750);
 </script>
 
 </body>
