@@ -11,9 +11,10 @@
 body{
   font-family:Arial,sans-serif;
   min-height:100vh;
-  overflow-x:hidden;
   padding:18px;
+  overflow-x:hidden;
 
+  /* 🌈 fondo base */
   background:
     radial-gradient(circle at 20% 10%, #ffd6ec 0%, transparent 40%),
     radial-gradient(circle at 80% 20%, #c7f3ff 0%, transparent 45%),
@@ -21,12 +22,14 @@ body{
     linear-gradient(180deg,#fdf6ff,#f8fbff);
 }
 
-/* 🎉 CONFETI + SERPENTINAS SUAVES */
+/* 🎉 CONFETI + SERPENTINAS DETRÁS DE TODO */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
+  z-index:0;
+
   background:
     radial-gradient(circle at 10% 20%, rgba(255,105,180,.35) 2px, transparent 3px),
     radial-gradient(circle at 30% 70%, rgba(77,205,248,.35) 2px, transparent 3px),
@@ -34,16 +37,17 @@ body::before{
     radial-gradient(circle at 90% 60%, rgba(163,120,255,.35) 2px, transparent 3px),
     radial-gradient(circle at 50% 50%, rgba(83,216,168,.35) 2px, transparent 3px);
 
-  opacity:.6;
-  animation:floatConfetti 14s linear infinite;
+  opacity:.55;
+  animation:confetti 14s linear infinite;
 }
 
-/* serpentinas (líneas suaves) */
 body::after{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
+  z-index:0;
+
   background:
     repeating-linear-gradient(45deg,
       rgba(255,182,193,.08) 0px,
@@ -55,10 +59,11 @@ body::after{
       rgba(173,216,230,.07) 6px,
       transparent 6px,
       transparent 18px);
+
   opacity:.5;
 }
 
-@keyframes floatConfetti{
+@keyframes confetti{
   0%{transform:translateY(0);}
   100%{transform:translateY(-25px);}
 }
@@ -85,27 +90,27 @@ body::after{
   display:block;
 }
 
-/* 🎈 CAPA DE GLOBOS LIBRE */
+/* 🎈 ZONA GLOBOS */
 .balloons{
   position:relative;
   height:340px;
-  margin-top:-30px;
+  margin-top:-20px;
 }
 
-/* BASE GLOBO */
+/* BASE */
 .balloon{
   position:absolute;
+  width:110px;
   display:flex;
   flex-direction:column;
   align-items:center;
   text-decoration:none;
-  width:110px;
 }
 
 /* GLOBO CANDY GLOSSY */
 .shape{
-  width:88px;
-  height:104px;
+  width:86px;
+  height:102px;
   border-radius:50% 50% 45% 45%;
   position:relative;
 
@@ -114,43 +119,37 @@ body::after{
     inset 10px 14px 18px rgba(255,255,255,.35),
     0 14px 24px rgba(0,0,0,.15);
 
-  border:1px solid rgba(255,255,255,.4);
-
   animation:float 5s ease-in-out infinite;
 }
 
-/* brillo glossy */
 .shape::before{
   content:"";
   position:absolute;
-  width:28px;
-  height:50px;
+  width:26px;
+  height:48px;
   top:12px;
   left:14px;
   background:rgba(255,255,255,.35);
   border-radius:50%;
-  filter:blur(.2px);
 }
 
-/* hilo */
 .shape::after{
   content:"";
   position:absolute;
   width:2px;
-  height:30px;
+  height:28px;
   background:rgba(120,120,120,.4);
   left:50%;
   top:100%;
   transform:translateX(-50%);
 }
 
-/* animación suave */
 @keyframes float{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(-12px);}
 }
 
-/* 🏷 etiquetas */
+/* ETIQUETAS */
 .tag{
   margin-top:8px;
   padding:10px;
@@ -177,12 +176,22 @@ body::after{
 .invitados .tag{background:#ff9b3d;}
 .subir .tag{background:#43d6a2;}
 
-/* 🎯 POSICIONES LIBRES (NO GRILLA) */
+/* 🎯 POSICIONES CORREGIDAS */
+
+/* superiores */
 .music{top:10px;left:10px;}
-.fotos{top:40px;right:10px;}
-.mensajes{top:120px;left:60px;}
-.invitados{top:160px;right:60px;}
-.subir{top:240px;left:50%;transform:translateX(-50%);}
+.fotos{top:10px;right:10px;}
+
+/* centro (violeta entre ambos) */
+.mensajes{
+  top:95px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+/* inferiores */
+.invitados{top:190px;left:15px;}
+.subir{top:190px;right:15px;}
 
 /* FOOTER */
 .footer{
@@ -190,6 +199,8 @@ body::after{
   text-align:center;
   color:#8a6d8e;
   font-size:.9rem;
+  position:relative;
+  z-index:2;
 }
 
 .brand{
@@ -197,6 +208,8 @@ body::after{
   text-align:center;
   font-size:.75rem;
   color:#9aa6b7;
+  position:relative;
+  z-index:2;
 }
 </style>
 </head>
@@ -209,7 +222,6 @@ body::after{
     <img src="PORTADA1.png" alt="portada">
   </div>
 
-  <!-- 🎈 GLOBOS SIN FILAS NI COLUMNAS -->
   <div class="balloons">
 
     <a href="musica.html" class="balloon music">
