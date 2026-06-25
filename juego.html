@@ -13,7 +13,7 @@ body{
   background:linear-gradient(180deg,#fff6fb,#eaf8ff);
 }
 
-/* marcador */
+/* HUD */
 .hud{
   position:fixed;
   top:10px;
@@ -26,7 +26,7 @@ body{
   z-index:10;
 }
 
-/* área */
+/* área del juego */
 .game{
   position:relative;
   width:100vw;
@@ -41,9 +41,10 @@ body{
   border-radius:50%;
   cursor:pointer;
 
-  box-shadow:inset -6px -10px 14px rgba(0,0,0,.2),
-             inset 6px 10px 14px rgba(255,255,255,.4),
-             0 10px 15px rgba(0,0,0,.15);
+  box-shadow:
+    inset -6px -10px 14px rgba(0,0,0,.2),
+    inset 6px 10px 14px rgba(255,255,255,.4),
+    0 10px 15px rgba(0,0,0,.15);
 
   animation:floatUp linear forwards;
 }
@@ -89,6 +90,9 @@ body{
 
 <body>
 
+<!-- 🔊 AUDIO POP -->
+<audio id="popSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a8f3c2.mp3?filename=pop-94319.mp3"></audio>
+
 <div class="hud">
   Puntos: <span id="score">0</span>
 </div>
@@ -96,12 +100,14 @@ body{
 <div class="game" id="game"></div>
 
 <script>
+
 let score = 0;
 const game = document.getElementById("game");
 const scoreEl = document.getElementById("score");
 
 const colors = ["c1","c2","c3","c4","c5"];
 
+/* crear globos */
 function spawn(){
   const b = document.createElement("div");
   b.classList.add("balloon");
@@ -120,16 +126,26 @@ function spawn(){
   setTimeout(()=>b.remove(), time*1000);
 }
 
+/* POP */
 function pop(balloon){
+
+  // 🔊 SONIDO
+  const sound = document.getElementById("popSound");
+  sound.currentTime = 0;
+  sound.play();
+
+  // puntos
   score++;
   scoreEl.textContent = score;
 
+  // confetti
   const rect = balloon.getBoundingClientRect();
   createConfetti(rect.left, rect.top);
 
   balloon.remove();
 }
 
+/* confetti */
 function createConfetti(x,y){
   for(let i=0;i<12;i++){
     const c = document.createElement("div");
@@ -152,8 +168,12 @@ function createConfetti(x,y){
   }
 }
 
+/* loop */
 setInterval(spawn, 700);
+
 </script>
 
 </body>
 </html>
+
+
