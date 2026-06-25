@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,13 +7,34 @@
 
   <style>
     :root{
-      --bg-pink:#ffe7f4;
-      --bg-lilac:#f7ecff;
-      --bg-blue:#eef7ff;
+      --bg-top:#edf8ff;
+      --bg-mid:#dff3ff;
+      --bg-bottom:#f6fbff;
+
+      --card:#ffffff;
+      --card-border:rgba(255,255,255,.82);
+
       --text:#5a2b5f;
-      --shadow:0 14px 34px rgba(218, 104, 179, .20);
-      --shadow-soft:0 8px 20px rgba(130, 130, 200, .18);
-      --white:#ffffff;
+      --muted:#8a6d8e;
+
+      --shadow-main:0 16px 36px rgba(120, 170, 220, .18);
+      --shadow-soft:0 10px 24px rgba(120, 170, 220, .14);
+      --shadow-balloon:0 14px 24px rgba(140, 110, 180, .20);
+
+      --pink1:#ff90cf;
+      --pink2:#f45bb0;
+
+      --blue1:#8ce5ff;
+      --blue2:#4dcdf8;
+
+      --violet1:#d2b7ff;
+      --violet2:#a873ff;
+
+      --orange1:#ffc57f;
+      --orange2:#ffa246;
+
+      --mint1:#9cf0cf;
+      --mint2:#53d8a8;
     }
 
     *{
@@ -26,13 +46,13 @@
     body{
       font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;
       color:var(--text);
-      background:
-        radial-gradient(circle at 20% 10%, #ffffff 0, #ffffff66 12%, transparent 13%),
-        radial-gradient(circle at 80% 20%, #ffffff 0, #ffffff66 10%, transparent 11%),
-        radial-gradient(circle at 10% 70%, #ffffff 0, #ffffff66 10%, transparent 11%),
-        linear-gradient(180deg, var(--bg-pink) 0%, var(--bg-lilac) 45%, var(--bg-blue) 100%);
       min-height:100vh;
-      padding:18px 12px 28px;
+      padding:18px 12px 26px;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,.95) 0 5%, transparent 6%),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.9) 0 4%, transparent 5%),
+        radial-gradient(circle at 12% 72%, rgba(255,255,255,.8) 0 4%, transparent 5%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 52%, var(--bg-bottom) 100%);
     }
 
     .page{
@@ -40,139 +60,226 @@
       margin:0 auto;
     }
 
+    /* Caja general blanca detrás de la portada */
     .hero{
-      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.88));
-      border-radius:34px;
-      padding:14px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
       position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.90));
+      border:2px solid var(--card-border);
+      border-radius:34px;
+      box-shadow:var(--shadow-main);
+      padding:14px 14px 18px;
+      overflow:hidden;
+      backdrop-filter: blur(4px);
     }
 
+    /* Brillos suaves decorativos de la caja */
+    .hero::before,
+    .hero::after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .hero::before{
+      width:130px;
+      height:130px;
+      top:-36px;
+      right:-26px;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(207,241,255,.95) 55%, rgba(160,220,255,.9) 100%);
+      opacity:.85;
+    }
+
+    .hero::after{
+      width:96px;
+      height:96px;
+      bottom:-20px;
+      left:-14px;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(225,244,255,.95) 55%, rgba(185,228,255,.9) 100%);
+      opacity:.85;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:1;
+    }
+
+    /* Tarjeta blanca detrás de la portada */
     .hero-image-wrap{
       position:relative;
-      width:100%;
+      background:linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
       border-radius:28px;
+      padding:10px 10px 210px; /* espacio inferior para globos */
+      box-shadow:var(--shadow-soft);
       overflow:visible;
-      background:#fff;
-      box-shadow:0 10px 24px rgba(155, 112, 189, .15);
-      padding-bottom:95px; /* espacio para que los globos "cuelguen" abajo */
     }
 
     .hero-image{
       width:100%;
       display:block;
+      border-radius:22px;
       height:auto;
-      border-radius:24px;
+      box-shadow:0 8px 22px rgba(150, 180, 210, .14);
       position:relative;
       z-index:1;
     }
 
-    /* ===== GLOBOS ===== */
+    /* ===== CONTENEDOR DE GLOBOS ===== */
     .balloons{
       position:absolute;
       left:0;
       right:0;
       bottom:8px;
+      height:205px;
       z-index:3;
       pointer-events:none;
     }
 
-    .balloon{
+    /* ===== ITEM globo + etiqueta ===== */
+    .balloon-item{
       position:absolute;
-      width:118px;
-      min-height:86px;
-      padding:18px 14px 20px;
-      border-radius:58% 58% 54% 54% / 62% 62% 42% 42%;
-      text-align:center;
-      text-decoration:none;
-      color:#fff;
-      font-weight:800;
-      font-size:.92rem;
-      line-height:1.18;
-      box-shadow:
-        0 12px 22px rgba(130, 70, 130, .18),
-        inset 0 10px 16px rgba(255,255,255,.22);
-      border:2px solid rgba(255,255,255,.45);
+      width:108px;
       display:flex;
+      flex-direction:column;
       align-items:center;
-      justify-content:center;
+      gap:8px;
       pointer-events:auto;
-      transition:transform .2s ease, box-shadow .2s ease;
-      transform-origin:center bottom;
-      text-shadow:0 1px 2px rgba(0,0,0,.15);
-      backdrop-filter: blur(1px);
+      text-decoration:none;
     }
 
-    .balloon::before{
-      content:"";
-      position:absolute;
-      width:34px;
-      height:16px;
-      background:rgba(255,255,255,.28);
-      border-radius:50%;
-      top:12px;
-      left:18px;
-      transform:rotate(-18deg);
-      filter:blur(.2px);
-    }
-
-    .balloon::after{
-      content:"";
-      position:absolute;
-      width:2px;
-      height:38px;
-      background:rgba(120, 100, 140, .35);
-      bottom:-36px;
-      left:50%;
-      transform:translateX(-50%);
-      border-radius:2px;
-    }
-
-    .balloon:hover{
-      transform:translateY(-4px) scale(1.03);
+    .balloon-shape{
+      position:relative;
+      width:92px;
+      height:108px;
+      border-radius:52% 52% 48% 48% / 58% 58% 42% 42%;
       box-shadow:
-        0 16px 28px rgba(130, 70, 130, .22),
+        var(--shadow-balloon),
         inset 0 10px 16px rgba(255,255,255,.24);
+      border:2px solid rgba(255,255,255,.46);
+      transition:transform .22s ease, box-shadow .22s ease;
+      transform-origin:center bottom;
     }
 
-    /* Colores */
+    .balloon-shape::before{
+      content:"";
+      position:absolute;
+      width:28px;
+      height:14px;
+      border-radius:50%;
+      top:14px;
+      left:16px;
+      background:rgba(255,255,255,.34);
+      transform:rotate(-18deg);
+      filter:blur(.3px);
+    }
+
+    .balloon-shape::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:-10px;
+      width:14px;
+      height:12px;
+      transform:translateX(-50%);
+      background:inherit;
+      clip-path:polygon(50% 100%, 0 0, 100% 0);
+      filter:brightness(.95);
+    }
+
+    .string{
+      position:absolute;
+      left:50%;
+      top:100%;
+      width:2px;
+      height:30px;
+      transform:translateX(-50%);
+      background:rgba(130, 120, 150, .34);
+      border-radius:999px;
+      pointer-events:none;
+    }
+
+    .tag{
+      min-height:40px;
+      width:100%;
+      padding:8px 10px;
+      border-radius:16px;
+      background:rgba(255,255,255,.96);
+      color:#6b4c70;
+      text-align:center;
+      font-size:.76rem;
+      font-weight:800;
+      line-height:1.18;
+      box-shadow:0 8px 18px rgba(150, 170, 210, .16);
+      border:1px solid rgba(255,255,255,.85);
+      transition:transform .22s ease, box-shadow .22s ease;
+    }
+
+    .balloon-item:hover .balloon-shape{
+      transform:translateY(-5px) scale(1.04);
+      box-shadow:
+        0 18px 28px rgba(140, 110, 180, .24),
+        inset 0 10px 16px rgba(255,255,255,.28);
+    }
+
+    .balloon-item:hover .tag{
+      transform:translateY(-2px);
+      box-shadow:0 12px 20px rgba(150, 170, 210, .18);
+    }
+
+    /* ===== COLORES ===== */
+    .music .balloon-shape{
+      background:linear-gradient(180deg, var(--pink1), var(--pink2));
+    }
+
+    .fotos .balloon-shape{
+      background:linear-gradient(180deg, var(--blue1), var(--blue2));
+    }
+
+    .mensajes .balloon-shape{
+      background:linear-gradient(180deg, var(--violet1), var(--violet2));
+    }
+
+    .invitados .balloon-shape{
+      background:linear-gradient(180deg, var(--orange1), var(--orange2));
+    }
+
+    .subir .balloon-shape{
+      background:linear-gradient(180deg, var(--mint1), var(--mint2));
+    }
+
+    /* ===== POSICIÓN DESKTOP ===== */
     .music{
-      background:linear-gradient(180deg, #ff84c8, #f24ea6);
-      left:8px;
-      bottom:8px;
-      animation:float1 4.6s ease-in-out infinite;
+      left:6px;
+      bottom:74px;
+      animation:float1 4.8s ease-in-out infinite;
     }
 
     .fotos{
-      background:linear-gradient(180deg, #7fe1ff, #45c6fb);
-      left:108px;
-      bottom:24px;
-      animation:float2 5.1s ease-in-out infinite;
+      left:104px;
+      bottom:92px;
+      animation:float2 5.2s ease-in-out infinite;
     }
 
     .mensajes{
-      background:linear-gradient(180deg, #cdaeff, #a46eff);
-      left:205px;
-      bottom:2px;
-      animation:float3 4.8s ease-in-out infinite;
+      left:204px;
+      bottom:66px;
+      animation:float3 4.9s ease-in-out infinite;
     }
 
     .invitados{
-      background:linear-gradient(180deg, #ffbf73, #ff9d3f);
-      right:100px;
-      bottom:24px;
+      right:102px;
+      bottom:90px;
       animation:float4 5.4s ease-in-out infinite;
     }
 
     .subir{
-      background:linear-gradient(180deg, #8fe9c7, #49d8a1);
-      right:8px;
-      bottom:8px;
-      animation:float5 4.9s ease-in-out infinite;
+      right:4px;
+      bottom:72px;
+      animation:float5 5s ease-in-out infinite;
     }
 
-    /* Animaciones de flotación */
+    /* ===== FLOTACIÓN ===== */
     @keyframes float1{
       0%,100%{ transform:translateY(0) rotate(-2deg); }
       50%{ transform:translateY(-8px) rotate(1deg); }
@@ -202,23 +309,23 @@
       margin-top:18px;
       text-align:center;
       font-size:.88rem;
-      color:#8a6d8e;
-      padding:0 8px;
+      color:var(--muted);
       line-height:1.4;
+      padding:0 8px;
     }
 
     .brand-signature{
-      margin-top:14px;
+      margin-top:12px;
       text-align:center;
       font-size:.72rem;
-      color:#9c86a3;
+      color:#9aa6b7;
       line-height:1.3;
     }
 
     .brand-signature a{
-      color:#9c86a3;
+      color:#9aa6b7;
       text-decoration:none;
-      border-bottom:1px solid rgba(156,134,163,.35);
+      border-bottom:1px solid rgba(154,166,183,.34);
       transition:opacity .2s ease;
     }
 
@@ -226,80 +333,79 @@
       opacity:.75;
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ===== TABLET / MOBILE ===== */
     @media (max-width: 520px){
       .hero{
-        padding:10px;
-        border-radius:26px;
+        border-radius:28px;
+        padding:10px 10px 16px;
       }
 
       .hero-image-wrap{
         border-radius:22px;
-        padding-bottom:260px;
+        padding:8px 8px 320px;
       }
 
       .hero-image{
-        border-radius:20px;
+        border-radius:18px;
       }
 
       .balloons{
-        position:absolute;
-        left:0;
-        right:0;
+        height:300px;
         bottom:0;
-        height:250px;
       }
 
-      .balloon{
-        width:42%;
-        min-height:84px;
-        font-size:.9rem;
-        padding:16px 12px 18px;
+      .balloon-item{
+        width:43%;
+        max-width:170px;
+      }
+
+      .balloon-shape{
+        width:84px;
+        height:100px;
+      }
+
+      .tag{
+        font-size:.74rem;
+        min-height:42px;
+        padding:8px 8px;
       }
 
       .music{
         left:4%;
-        bottom:140px;
+        bottom:186px;
       }
 
       .fotos{
-        right:4%;
         left:auto;
-        bottom:146px;
+        right:4%;
+        bottom:192px;
       }
 
       .mensajes{
         left:4%;
-        bottom:48px;
+        bottom:92px;
       }
 
       .invitados{
         right:4%;
-        bottom:54px;
+        bottom:96px;
       }
 
       .subir{
         left:50%;
         right:auto;
         transform:translateX(-50%);
-        bottom:-8px;
-        width:48%;
+        bottom:0;
       }
 
-      .music:hover,
-      .fotos:hover,
-      .mensajes:hover,
-      .invitados:hover{
-        transform:translateY(-4px) scale(1.03);
-      }
-
-      .subir:hover{
-        transform:translateX(-50%) translateY(-4px) scale(1.03);
-      }
-
+      /* flotación del globo central manteniendo centrado */
       @keyframes float5{
         0%,100%{ transform:translateX(-50%) translateY(0) rotate(-1deg); }
         50%{ transform:translateX(-50%) translateY(-8px) rotate(2deg); }
+      }
+
+      .subir:hover .balloon-shape{
+        transform:translateY(-5px) scale(1.04);
       }
     }
   </style>
@@ -307,30 +413,59 @@
 <body>
   <main class="page">
     <section class="hero">
-      <div class="hero-image-wrap">
-        <img src="PORTADA1.jpg" alt="Portada del cumpleaños de Matías" class="hero-image">
+      <div class="hero-inner">
+        <div class="hero-image-wrap">
+          <img src="PORTADA1.png" alt="Portada del cumpleaños de Matías" class="hero-image">
 
-        <div class="balloons">
-          <a href="musica.html" class="balloon music">Dale play a mi fiesta</a>
-          <a href="fotos.html" class="balloon fotos">Mis fotos favoritas</a>
-          <a href="mensajes.html" class="balloon mensajes">Dejame un mensajito</a>
-          <a href="invitados.html" class="balloon invitados">Quienes compartieron mi día</a>
-          <a href="subi-tu-foto.html" class="balloon subir">Compartí tu foto conmigo</a>
+          <div class="balloons">
+            <a href="musica.html" class="balloon-item music">
+              <span class="balloon-shape">
+                <span class="string"></span>
+              </span>
+              <span class="tag">Dale play a mi fiesta</span>
+            </a>
+
+            <a href="fotos.html" class="balloon-item fotos">
+              <span class="balloon-shape">
+                <span class="string"></span>
+              </span>
+              <span class="tag">Mis fotos favoritas</span>
+            </a>
+
+            <a href="mensajes.html" class="balloon-item mensajes">
+              <span class="balloon-shape">
+                <span class="string"></span>
+              </span>
+              <span class="tag">Dejame un mensajito</span>
+            </a>
+
+            <a href="invitados.html" class="balloon-item invitados">
+              <span class="balloon-shape">
+                <span class="string"></span>
+              </span>
+              <span class="tag">Quienes compartieron mi día</span>
+            </a>
+
+            <a href="subi-tu-foto.html" class="balloon-item subir">
+              <span class="balloon-shape">
+                <span class="string"></span>
+              </span>
+              <span class="tag">Compartí tu foto conmigo</span>
+            </a>
+          </div>
         </div>
+
+        <p class="footer-note">
+          Gracias por acompañarme en este día tan especial 💖
+        </p>
+
+        <p class="brand-signature">
+          <a href="https://wa.me/5493854118422" target="_blank" rel="noopener noreferrer">
+            Diseño digital por MORGANA TECNO
+          </a>
+        </p>
       </div>
-
-      <p class="footer-note">
-        Gracias por acompañarme en este día tan especial 💖
-      </p>
-
-      <p class="brand-signature">
-        <a href="https://wa.me/5493854118422" target="_blank" rel="noopener noreferrer">
-          Diseño digital por MORGANA TECNO
-        </a>
-      </p>
     </section>
   </main>
 </body>
 </html>
-
-
