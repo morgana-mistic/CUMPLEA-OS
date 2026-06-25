@@ -159,18 +159,19 @@ body::after{
   box-shadow:0 10px 18px rgba(0,0,0,.12);
 }
 
-/* COLORES GLOBOS */
+/* COLORES */
 .music .shape{background:linear-gradient(180deg,#ff9ad5,#f04aa8);}
 .fotos .shape{background:linear-gradient(180deg,#9fe7ff,#3fbef0);}
 .mensajes .shape{background:linear-gradient(180deg,#d7b7ff,#9a6bff);}
 .invitados .shape{background:linear-gradient(180deg,#ffd29b,#ff9b3d);}
 
-/* 🎮 JUEGO AMARILLO */
+/* 🎮 JUEGO (CORREGIDO SOLO COLOR) */
 .juego .shape{
-  background:linear-gradient(180deg,#fff176,#ffca28);
+  background:linear-gradient(180deg,#fff59d,#fbc02d);
 }
+
 .juego .tag{
-  background:#ffca28;
+  background:#fbc02d;
   color:#5a2b00;
 }
 
@@ -180,23 +181,24 @@ body::after{
 .mensajes .tag{background:#9a6bff;}
 .invitados .tag{background:#ff9b3d;}
 
-/* POSICIONES CORREGIDAS */
+/* POSICIONES (INTACTAS) */
 .music{top:10px;left:10px;}
 .fotos{top:10px;right:10px;}
 
 .mensajes{
   top:95px;
-  left:10px;
-}
-
-.juego{
-  top:95px;
-  right:10px;
+  left:50%;
+  transform:translateX(-50%);
 }
 
 .invitados{
   top:190px;
   left:15px;
+}
+
+.juego{
+  top:190px;
+  right:15px;
 }
 
 /* FOOTER */
@@ -245,14 +247,14 @@ body::after{
       <div class="tag">Dejame un mensajito</div>
     </a>
 
-    <a href="juego.html" class="balloon juego">
-      <div class="shape"></div>
-      <div class="tag">¡Juguemos!</div>
-    </a>
-
     <a href="invitados.html" class="balloon invitados">
       <div class="shape"></div>
       <div class="tag">Quienes compartieron mi día</div>
+    </a>
+
+    <a href="juego.html" class="balloon juego">
+      <div class="shape"></div>
+      <div class="tag">¡Juguemos!</div>
     </a>
 
   </div>
