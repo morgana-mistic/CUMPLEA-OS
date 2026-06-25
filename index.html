@@ -11,9 +11,6 @@
       --bg-mid:#dff3ff;
       --bg-bottom:#f6fbff;
 
-      --card:#ffffff;
-      --card-border:rgba(255,255,255,.82);
-
       --text:#5a2b5f;
       --muted:#8a6d8e;
 
@@ -37,11 +34,7 @@
       --mint2:#53d8a8;
     }
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;}
 
     body{
       font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;
@@ -51,8 +44,13 @@
       background:
         radial-gradient(circle at 18% 12%, rgba(255,255,255,.95) 0 5%, transparent 6%),
         radial-gradient(circle at 82% 18%, rgba(255,255,255,.9) 0 4%, transparent 5%),
-        radial-gradient(circle at 12% 72%, rgba(255,255,255,.8) 0 4%, transparent 5%),
         linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 52%, var(--bg-bottom) 100%);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(8px);}
+      to{opacity:1; transform:translateY(0);}
     }
 
     .page{
@@ -60,131 +58,78 @@
       margin:0 auto;
     }
 
-    /* Caja general blanca detrás de la portada */
     .hero{
       position:relative;
       background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.90));
-      border:2px solid var(--card-border);
       border-radius:34px;
       box-shadow:var(--shadow-main);
-      padding:14px 14px 18px;
+      padding:14px;
       overflow:hidden;
-      backdrop-filter: blur(4px);
     }
 
-    /* Brillos suaves decorativos de la caja */
-    .hero::before,
-    .hero::after{
-      content:"";
-      position:absolute;
-      border-radius:999px;
-      z-index:0;
-      pointer-events:none;
-    }
+    .hero-inner{position:relative;}
 
-    .hero::before{
-      width:130px;
-      height:130px;
-      top:-36px;
-      right:-26px;
-      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(207,241,255,.95) 55%, rgba(160,220,255,.9) 100%);
-      opacity:.85;
-    }
-
-    .hero::after{
-      width:96px;
-      height:96px;
-      bottom:-20px;
-      left:-14px;
-      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(225,244,255,.95) 55%, rgba(185,228,255,.9) 100%);
-      opacity:.85;
-    }
-
-    .hero-inner{
-      position:relative;
-      z-index:1;
-    }
-
-    /* Tarjeta blanca detrás de la portada */
     .hero-image-wrap{
       position:relative;
-      background:linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
       border-radius:28px;
-      padding:10px 10px 210px; /* espacio inferior para globos */
+      background:#fff;
+      padding:10px;
       box-shadow:var(--shadow-soft);
-      overflow:visible;
     }
 
     .hero-image{
       width:100%;
-      display:block;
       border-radius:22px;
-      height:auto;
-      box-shadow:0 8px 22px rgba(150, 180, 210, .14);
-      position:relative;
-      z-index:1;
+      display:block;
     }
 
-    /* ===== CONTENEDOR DE GLOBOS ===== */
+    /* ===== GLOBOS NUEVA DISTRIBUCIÓN ===== */
     .balloons{
       position:absolute;
       left:0;
       right:0;
-      bottom:8px;
-      height:205px;
-      z-index:3;
+      bottom:0;
+      top:45%; /* 👈 clave: desde mitad de imagen hacia abajo */
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:flex-end;
+      padding:10px 10px 14px;
+      gap:12px;
       pointer-events:none;
     }
 
-    /* ===== ITEM globo + etiqueta ===== */
     .balloon-item{
-      position:absolute;
-      width:108px;
+      width:42%;
+      max-width:160px;
       display:flex;
       flex-direction:column;
       align-items:center;
       gap:8px;
-      pointer-events:auto;
       text-decoration:none;
+      pointer-events:auto;
     }
 
     .balloon-shape{
       position:relative;
-      width:92px;
-      height:108px;
-      border-radius:52% 52% 48% 48% / 58% 58% 42% 42%;
-      box-shadow:
-        var(--shadow-balloon),
-        inset 0 10px 16px rgba(255,255,255,.24);
-      border:2px solid rgba(255,255,255,.46);
-      transition:transform .22s ease, box-shadow .22s ease;
-      transform-origin:center bottom;
+      width:86px;
+      height:102px;
+      border-radius:52% 52% 48% 48%;
+      box-shadow:var(--shadow-balloon);
+      border:2px solid rgba(255,255,255,.45);
+      transition:.2s ease;
     }
 
     .balloon-shape::before{
       content:"";
       position:absolute;
-      width:28px;
+      width:26px;
       height:14px;
-      border-radius:50%;
       top:14px;
       left:16px;
-      background:rgba(255,255,255,.34);
+      background:rgba(255,255,255,.35);
+      border-radius:50%;
       transform:rotate(-18deg);
-      filter:blur(.3px);
-    }
-
-    .balloon-shape::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      bottom:-10px;
-      width:14px;
-      height:12px;
-      transform:translateX(-50%);
-      background:inherit;
-      clip-path:polygon(50% 100%, 0 0, 100% 0);
-      filter:brightness(.95);
     }
 
     .string{
@@ -192,280 +137,124 @@
       left:50%;
       top:100%;
       width:2px;
-      height:30px;
+      height:28px;
       transform:translateX(-50%);
-      background:rgba(130, 120, 150, .34);
-      border-radius:999px;
-      pointer-events:none;
+      background:rgba(120,120,140,.35);
     }
 
+    /* ===== ETIQUETAS AHORA CON COLOR ===== */
     .tag{
       min-height:40px;
       width:100%;
       padding:8px 10px;
       border-radius:16px;
-      background:rgba(255,255,255,.96);
-      color:#6b4c70;
       text-align:center;
       font-size:.76rem;
       font-weight:800;
-      line-height:1.18;
-      box-shadow:0 8px 18px rgba(150, 170, 210, .16);
-      border:1px solid rgba(255,255,255,.85);
-      transition:transform .22s ease, box-shadow .22s ease;
+      color:#fff;
+      box-shadow:0 10px 18px rgba(0,0,0,.12);
     }
+
+    .music .tag{background:linear-gradient(180deg,var(--pink1),var(--pink2));}
+    .fotos .tag{background:linear-gradient(180deg,var(--blue1),var(--blue2));}
+    .mensajes .tag{background:linear-gradient(180deg,var(--violet1),var(--violet2));}
+    .invitados .tag{background:linear-gradient(180deg,var(--orange1),var(--orange2));}
+    .subir .tag{background:linear-gradient(180deg,var(--mint1),var(--mint2));}
+
+    /* colores globos */
+    .music .balloon-shape{background:linear-gradient(180deg,var(--pink1),var(--pink2));}
+    .fotos .balloon-shape{background:linear-gradient(180deg,var(--blue1),var(--blue2));}
+    .mensajes .balloon-shape{background:linear-gradient(180deg,var(--violet1),var(--violet2));}
+    .invitados .balloon-shape{background:linear-gradient(180deg,var(--orange1),var(--orange2));}
+    .subir .balloon-shape{background:linear-gradient(180deg,var(--mint1),var(--mint2));}
 
     .balloon-item:hover .balloon-shape{
-      transform:translateY(-5px) scale(1.04);
-      box-shadow:
-        0 18px 28px rgba(140, 110, 180, .24),
-        inset 0 10px 16px rgba(255,255,255,.28);
+      transform:translateY(-6px) scale(1.04);
     }
 
-    .balloon-item:hover .tag{
-      transform:translateY(-2px);
-      box-shadow:0 12px 20px rgba(150, 170, 210, .18);
-    }
-
-    /* ===== COLORES ===== */
-    .music .balloon-shape{
-      background:linear-gradient(180deg, var(--pink1), var(--pink2));
-    }
-
-    .fotos .balloon-shape{
-      background:linear-gradient(180deg, var(--blue1), var(--blue2));
-    }
-
-    .mensajes .balloon-shape{
-      background:linear-gradient(180deg, var(--violet1), var(--violet2));
-    }
-
-    .invitados .balloon-shape{
-      background:linear-gradient(180deg, var(--orange1), var(--orange2));
-    }
-
-    .subir .balloon-shape{
-      background:linear-gradient(180deg, var(--mint1), var(--mint2));
-    }
-
-    /* ===== POSICIÓN DESKTOP ===== */
-    .music{
-      left:6px;
-      bottom:74px;
-      animation:float1 4.8s ease-in-out infinite;
-    }
-
-    .fotos{
-      left:104px;
-      bottom:92px;
-      animation:float2 5.2s ease-in-out infinite;
-    }
-
-    .mensajes{
-      left:204px;
-      bottom:66px;
-      animation:float3 4.9s ease-in-out infinite;
-    }
-
-    .invitados{
-      right:102px;
-      bottom:90px;
-      animation:float4 5.4s ease-in-out infinite;
-    }
-
-    .subir{
-      right:4px;
-      bottom:72px;
-      animation:float5 5s ease-in-out infinite;
-    }
-
-    /* ===== FLOTACIÓN ===== */
-    @keyframes float1{
-      0%,100%{ transform:translateY(0) rotate(-2deg); }
-      50%{ transform:translateY(-8px) rotate(1deg); }
-    }
-
-    @keyframes float2{
-      0%,100%{ transform:translateY(0) rotate(1deg); }
-      50%{ transform:translateY(-10px) rotate(-1deg); }
-    }
-
-    @keyframes float3{
-      0%,100%{ transform:translateY(0) rotate(-1deg); }
-      50%{ transform:translateY(-7px) rotate(1deg); }
-    }
-
-    @keyframes float4{
-      0%,100%{ transform:translateY(0) rotate(2deg); }
-      50%{ transform:translateY(-9px) rotate(-1deg); }
-    }
-
-    @keyframes float5{
-      0%,100%{ transform:translateY(0) rotate(-1deg); }
-      50%{ transform:translateY(-8px) rotate(2deg); }
+    /* desktop ajuste suave */
+    @media (min-width:520px){
+      .balloons{
+        top:48%;
+        padding:14px;
+        gap:14px;
+      }
+      .balloon-item{width:30%;}
     }
 
     .footer-note{
       margin-top:18px;
       text-align:center;
-      font-size:.88rem;
+      font-size:.9rem;
       color:var(--muted);
-      line-height:1.4;
-      padding:0 8px;
     }
 
     .brand-signature{
-      margin-top:12px;
+      margin-top:10px;
       text-align:center;
       font-size:.72rem;
       color:#9aa6b7;
-      line-height:1.3;
     }
 
     .brand-signature a{
-      color:#9aa6b7;
+      color:inherit;
       text-decoration:none;
-      border-bottom:1px solid rgba(154,166,183,.34);
-      transition:opacity .2s ease;
-    }
-
-    .brand-signature a:hover{
-      opacity:.75;
-    }
-
-    /* ===== TABLET / MOBILE ===== */
-    @media (max-width: 520px){
-      .hero{
-        border-radius:28px;
-        padding:10px 10px 16px;
-      }
-
-      .hero-image-wrap{
-        border-radius:22px;
-        padding:8px 8px 320px;
-      }
-
-      .hero-image{
-        border-radius:18px;
-      }
-
-      .balloons{
-        height:300px;
-        bottom:0;
-      }
-
-      .balloon-item{
-        width:43%;
-        max-width:170px;
-      }
-
-      .balloon-shape{
-        width:84px;
-        height:100px;
-      }
-
-      .tag{
-        font-size:.74rem;
-        min-height:42px;
-        padding:8px 8px;
-      }
-
-      .music{
-        left:4%;
-        bottom:186px;
-      }
-
-      .fotos{
-        left:auto;
-        right:4%;
-        bottom:192px;
-      }
-
-      .mensajes{
-        left:4%;
-        bottom:92px;
-      }
-
-      .invitados{
-        right:4%;
-        bottom:96px;
-      }
-
-      .subir{
-        left:50%;
-        right:auto;
-        transform:translateX(-50%);
-        bottom:0;
-      }
-
-      /* flotación del globo central manteniendo centrado */
-      @keyframes float5{
-        0%,100%{ transform:translateX(-50%) translateY(0) rotate(-1deg); }
-        50%{ transform:translateX(-50%) translateY(-8px) rotate(2deg); }
-      }
-
-      .subir:hover .balloon-shape{
-        transform:translateY(-5px) scale(1.04);
-      }
     }
   </style>
 </head>
+
 <body>
-  <main class="page">
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-image-wrap">
-          <img src="PORTADA1.png" alt="Portada del cumpleaños de Matías" class="hero-image">
+<main class="page">
+  <section class="hero">
 
-          <div class="balloons">
-            <a href="musica.html" class="balloon-item music">
-              <span class="balloon-shape">
-                <span class="string"></span>
-              </span>
-              <span class="tag">Dale play a mi fiesta</span>
-            </a>
+    <div class="hero-inner">
 
-            <a href="fotos.html" class="balloon-item fotos">
-              <span class="balloon-shape">
-                <span class="string"></span>
-              </span>
-              <span class="tag">Mis fotos favoritas</span>
-            </a>
+      <div class="hero-image-wrap">
+        <img src="PORTADA1.png" class="hero-image" alt="Portada">
 
-            <a href="mensajes.html" class="balloon-item mensajes">
-              <span class="balloon-shape">
-                <span class="string"></span>
-              </span>
-              <span class="tag">Dejame un mensajito</span>
-            </a>
+        <div class="balloons">
 
-            <a href="invitados.html" class="balloon-item invitados">
-              <span class="balloon-shape">
-                <span class="string"></span>
-              </span>
-              <span class="tag">Quienes compartieron mi día</span>
-            </a>
+          <a href="musica.html" class="balloon-item music">
+            <span class="balloon-shape"><span class="string"></span></span>
+            <span class="tag">Dale play a mi fiesta</span>
+          </a>
 
-            <a href="subi-tu-foto.html" class="balloon-item subir">
-              <span class="balloon-shape">
-                <span class="string"></span>
-              </span>
-              <span class="tag">Compartí tu foto conmigo</span>
-            </a>
-          </div>
+          <a href="fotos.html" class="balloon-item fotos">
+            <span class="balloon-shape"><span class="string"></span></span>
+            <span class="tag">Mis fotos favoritas</span>
+          </a>
+
+          <a href="mensajes.html" class="balloon-item mensajes">
+            <span class="balloon-shape"><span class="string"></span></span>
+            <span class="tag">Dejame un mensajito</span>
+          </a>
+
+          <a href="invitados.html" class="balloon-item invitados">
+            <span class="balloon-shape"><span class="string"></span></span>
+            <span class="tag">Quienes compartieron mi día</span>
+          </a>
+
+          <a href="subi-tu-foto.html" class="balloon-item subir">
+            <span class="balloon-shape"><span class="string"></span></span>
+            <span class="tag">Compartí tu foto conmigo</span>
+          </a>
+
         </div>
 
-        <p class="footer-note">
-          Gracias por acompañarme en este día tan especial 💖
-        </p>
-
-        <p class="brand-signature">
-          <a href="https://wa.me/5493854118422" target="_blank" rel="noopener noreferrer">
-            Diseño digital por MORGANA TECNO
-          </a>
-        </p>
       </div>
-    </section>
-  </main>
+
+      <p class="footer-note">
+        Gracias por acompañarme en este día tan especial 💖
+      </p>
+
+      <p class="brand-signature">
+        <a href="https://wa.me/5493854118422" target="_blank">
+          Diseño digital por MORGANA TECNO
+        </a>
+      </p>
+
+    </div>
+  </section>
+</main>
 </body>
 </html>
