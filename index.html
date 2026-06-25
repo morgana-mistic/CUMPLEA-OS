@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cumple de Matías</title>
+  <style>
+    :root{
+      --bg1:#fff5fb;
+      --bg2:#f4f6ff;
+      --pink:#ff5fb2;
+      --pink-dark:#e93d98;
+      --blue:#74d8ff;
+      --blue-dark:#45c1f7;
+      --yellow:#ffd95e;
+      --lav:#c9a6ff;
+      --mint:#bdf7df;
+      --text:#5a2b5f;
+      --white:#ffffff;
+      --shadow:0 12px 30px rgba(221, 87, 173, .20);
+      --shadow-soft:0 8px 20px rgba(130, 130, 200, .14);
+      --radius-xl:32px;
+      --radius-lg:24px;
+      --radius-md:18px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, #ffffff 0, #ffffff66 12%, transparent 13%),
+        radial-gradient(circle at 80% 20%, #ffffff 0, #ffffff66 10%, transparent 11%),
+        radial-gradient(circle at 10% 70%, #ffffff 0, #ffffff66 10%, transparent 11%),
+        linear-gradient(180deg, #ffe7f4 0%, #f7ecff 45%, #eef7ff 100%);
+      min-height:100vh;
+      padding:20px 14px 40px;
+    }
+
+    .page{
+      width:min(100%, 460px);
+      margin:0 auto;
+    }
+
+    .hero{
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.86));
+      border:2px solid rgba(255,255,255,.7);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      padding:18px 16px 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero::before,
+    .hero::after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      filter:blur(2px);
+      z-index:0;
+    }
+
+    .hero::before{
+      width:140px;
+      height:140px;
+      top:-35px;
+      right:-25px;
+      background:radial-gradient(circle at 30% 30%, #ffffff, #ffd0ea 55%, #ff8ec7 100%);
+      opacity:.85;
+    }
+
+    .hero::after{
+      width:110px;
+      height:110px;
+      bottom:-30px;
+      left:-20px;
+      background:radial-gradient(circle at 30% 30%, #ffffff, #dff8ff 55%, #8fe0ff 100%);
+      opacity:.85;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:1;
+    }
+
+    .hero-image-wrap{
+      background:linear-gradient(180deg, #fff 0%, #fff7fd 100%);
+      border-radius:28px;
+      padding:10px;
+      box-shadow:var(--shadow-soft);
+      margin-bottom:18px;
+    }
+
+    .hero-image{
+      width:100%;
+      display:block;
+      border-radius:22px;
+      object-fit:cover;
+      box-shadow:0 10px 25px rgba(255, 122, 190, .16);
+    }
+
+    .eyebrow{
+      display:inline-block;
+      margin:0 auto 10px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:linear-gradient(180deg, #fff6b9, #ffd95e);
+      color:#7a4f00;
+      font-weight:700;
+      font-size:.92rem;
+      box-shadow:0 8px 18px rgba(255, 217, 94, .28);
+    }
+
+    .title{
+      font-size:2rem;
+      line-height:1.05;
+      text-align:center;
+      margin-bottom:8px;
+      color:#c92d87;
+      text-shadow:0 2px 0 rgba(255,255,255,.9);
+    }
+
+    .subtitle{
+      text-align:center;
+      font-size:1rem;
+      line-height:1.45;
+      max-width:320px;
+      margin:0 auto 18px;
+      color:#6d4470;
+    }
+
+    .menu{
+      display:grid;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .menu a{
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+      font-size:1rem;
+      text-align:center;
+      padding:15px 16px;
+      border-radius:20px;
+      box-shadow:var(--shadow-soft);
+      transition:transform .18s ease, box-shadow .18s ease;
+      border:2px solid rgba(255,255,255,.5);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .menu a::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0));
+      pointer-events:none;
+    }
+
+    .menu a:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 24px rgba(180, 92, 170, .22);
+    }
+
+    .btn-music{
+      background:linear-gradient(180deg, #ff7cc2, #f44da4);
+    }
+
+    .btn-fotos{
+      background:linear-gradient(180deg, #7edfff, #46c5fb);
+    }
+
+    .btn-mensajes{
+      background:linear-gradient(180deg, #c9a7ff, #a46eff);
+    }
+
+    .btn-invitados{
+      background:linear-gradient(180deg, #ffb86c, #ff9a3d);
+    }
+
+    .btn-subir{
+      background:linear-gradient(180deg, #8be8c2, #49d8a1);
+    }
+
+    .footer-note{
+      margin-top:18px;
+      text-align:center;
+      font-size:.88rem;
+      color:#8a6d8e;
+      padding:0 8px;
+      line-height:1.4;
+    }
+
+    .sparkles{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin:14px 0 8px;
+      font-size:1.1rem;
+    }
+
+    @media (max-width:420px){
+      .title{
+        font-size:1.8rem;
+      }
+
+      .subtitle{
+        font-size:.96rem;
+      }
+
+      .menu a{
+        font-size:.98rem;
+        padding:14px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-image-wrap">
+          <img src="portada.png" alt="Portada del cumpleaños de Matías" class="hero-image">
+        </div>
+        <nav class="menu">
+          <a href="musica.html" class="btn-music">Dale play a mi fiesta</a>
+          <a href="fotos.html" class="btn-fotos">Mis fotos favoritas</a>
+          <a href="mensajes.html" class="btn-mensajes">Dejame un mensajito</a>
+          <a href="invitados.html" class="btn-invitados">Quienes compartieron mi día</a>
+          <a href="subi-tu-foto.html" class="btn-subir">Compartí tu foto conmigo</a>
+        </nav>
+
+        <p class="footer-note">
+          Gracias por acompañarme en este día tan especial 💖
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+```
