@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La música de mi fiesta</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial,sans-serif;
+      min-height:100vh;
+      padding:18px;
+      overflow-x:hidden;
+      color:#6d4a76;
+
+      background:
+        radial-gradient(circle at 20% 10%, #ffd6ec 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, #c7f3ff 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, #ffe6b8 0%, transparent 45%),
+        linear-gradient(180deg,#fdf6ff,#f8fbff);
+    }
+
+    /* confeti suave detrás de todo */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,105,180,.20) 2px, transparent 3px),
+        radial-gradient(circle at 30% 70%, rgba(77,205,248,.20) 2px, transparent 3px),
+        radial-gradient(circle at 70% 30%, rgba(255,162,70,.20) 2px, transparent 3px),
+        radial-gradient(circle at 90% 60%, rgba(163,120,255,.20) 2px, transparent 3px),
+        radial-gradient(circle at 50% 50%, rgba(83,216,168,.20) 2px, transparent 3px);
+      opacity:.9;
+    }
+
+    .page{
+      max-width:560px;
+      margin:0 auto;
+      position:relative;
+      z-index:1;
+    }
+
+    .card{
+      background:rgba(255,255,255,.95);
+      border-radius:30px;
+      padding:18px 16px 20px;
+      box-shadow:0 16px 36px rgba(120,170,220,.18);
+      backdrop-filter:blur(4px);
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .back-btn{
+      text-decoration:none;
+      background:linear-gradient(180deg,#ffd6ec,#ffb6d9);
+      color:#7a4d82;
+      font-weight:800;
+      padding:10px 14px;
+      border-radius:16px;
+      box-shadow:0 8px 18px rgba(0,0,0,.10);
+      transition:transform .18s ease;
+      font-size:.92rem;
+      white-space:nowrap;
+    }
+
+    .back-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .title-chip{
+      flex:1;
+      text-align:center;
+      background:linear-gradient(180deg,#ffffff,#fff7fc);
+      color:#8a5b92;
+      font-weight:900;
+      padding:12px 16px;
+      border-radius:999px;
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+      font-size:1rem;
+    }
+
+    .hero{
+      text-align:center;
+      margin-bottom:16px;
+      padding:10px 8px 0;
+    }
+
+    .hero h1{
+      font-size:1.7rem;
+      color:#7d4a85;
+      margin-bottom:10px;
+    }
+
+    .hero p{
+      font-size:1rem;
+      color:#8a6d8e;
+      line-height:1.5;
+      max-width:430px;
+      margin:0 auto;
+    }
+
+    .music-box{
+      margin-top:18px;
+      background:linear-gradient(180deg,#fffafd,#fdfcff);
+      border-radius:26px;
+      padding:14px;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.7), 0 10px 24px rgba(120,170,220,.12);
+    }
+
+    .spotify-frame{
+      width:100%;
+      border:none;
+      border-radius:20px;
+      display:block;
+      min-height:352px;
+    }
+
+    .note{
+      margin-top:16px;
+      text-align:center;
+      font-size:.95rem;
+      color:#8a6d8e;
+      line-height:1.45;
+      padding:0 8px;
+    }
+
+    .mini-actions{
+      margin-top:18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+    }
+
+    .mini-btn{
+      text-decoration:none;
+      font-weight:800;
+      border-radius:16px;
+      padding:11px 16px;
+      box-shadow:0 8px 18px rgba(0,0,0,.10);
+      transition:transform .18s ease;
+      font-size:.92rem;
+    }
+
+    .mini-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-spotify{
+      background:linear-gradient(180deg,#b7ffd4,#63e09b);
+      color:#245a39;
+    }
+
+    .btn-home{
+      background:linear-gradient(180deg,#ccefff,#95dcff);
+      color:#3d6480;
+    }
+
+    .footer{
+      margin-top:18px;
+      text-align:center;
+      color:#9aa6b7;
+      font-size:.78rem;
+      line-height:1.4;
+    }
+
+    @media (max-width: 560px){
+      body{
+        padding:14px;
+      }
+
+      .card{
+        border-radius:24px;
+        padding:14px 12px 16px;
+      }
+
+      .topbar{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .title-chip{
+        font-size:.96rem;
+      }
+
+      .hero h1{
+        font-size:1.45rem;
+      }
+
+      .hero p{
+        font-size:.96rem;
+      }
+
+      .spotify-frame{
+        min-height:352px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="page">
+    <section class="card">
+
+      <div class="topbar">
+        <a href="index.html" class="back-btn">← Volver al cumple</a>
+        <div class="title-chip">🎵 Dale play a mi fiesta 🎵</div>
+      </div>
+
+      <div class="hero">
+        <h1>La música de mi cumple</h1>
+        <p>
+          Tocá play y escuchá la playlist que armé para festejar conmigo 🎉💖
+        </p>
+      </div>
+
+      <div class="music-box">
+        <iframe
+          class="spotify-frame"
+          src="https://open.spotify.com/embed/playlist/3pZjoQ5djaJCTi1eWR24Pa?utm_source=generator"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+      </div>
+
+      <p class="note">
+        Si querés, también podés abrir la playlist directamente en Spotify 💚
+      </p>
+
+      <div class="mini-actions">
+        <a
+          class="mini-btn btn-spotify"
+          href="https://open.spotify.com/playlist/3pZjoQ5djaJCTi1eWR24Pa"
+          target="_blank"
+          rel="noopener noreferrer">
+          Abrir en Spotify
+        </a>
+
+        <a class="mini-btn btn-home" href="index.html">
+          Volver al inicio
+        </a>
+      </div>
+
+      <div class="footer">
+        Música, fiesta y recuerdos bonitos ✨
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
