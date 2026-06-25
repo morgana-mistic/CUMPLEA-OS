@@ -7,19 +7,13 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-.juego .shape{
-  background:linear-gradient(180deg,#fff176,#ffca28);
-}
-.juego .tag{
-  background:#ffca28;
-}
+
 body{
   font-family:Arial,sans-serif;
   min-height:100vh;
   padding:18px;
   overflow-x:hidden;
 
-  /* 🌈 fondo base */
   background:
     radial-gradient(circle at 20% 10%, #ffd6ec 0%, transparent 40%),
     radial-gradient(circle at 80% 20%, #c7f3ff 0%, transparent 45%),
@@ -27,7 +21,7 @@ body{
     linear-gradient(180deg,#fdf6ff,#f8fbff);
 }
 
-/* 🎉 CONFETI + SERPENTINAS DETRÁS DE TODO */
+/* CONFETI */
 body::before{
   content:"";
   position:fixed;
@@ -73,7 +67,6 @@ body::after{
   100%{transform:translateY(-25px);}
 }
 
-/* CONTENEDOR */
 .page{
   max-width:520px;
   margin:auto;
@@ -95,14 +88,13 @@ body::after{
   display:block;
 }
 
-/* 🎈 ZONA GLOBOS */
+/* GLOBOS */
 .balloons{
   position:relative;
   height:340px;
   margin-top:-20px;
 }
 
-/* BASE */
 .balloon{
   position:absolute;
   width:110px;
@@ -112,7 +104,7 @@ body::after{
   text-decoration:none;
 }
 
-/* GLOBO CANDY GLOSSY */
+/* GLOBO CANDY */
 .shape{
   width:86px;
   height:102px;
@@ -167,36 +159,45 @@ body::after{
   box-shadow:0 10px 18px rgba(0,0,0,.12);
 }
 
-/* COLORES */
+/* COLORES GLOBOS */
 .music .shape{background:linear-gradient(180deg,#ff9ad5,#f04aa8);}
 .fotos .shape{background:linear-gradient(180deg,#9fe7ff,#3fbef0);}
 .mensajes .shape{background:linear-gradient(180deg,#d7b7ff,#9a6bff);}
 .invitados .shape{background:linear-gradient(180deg,#ffd29b,#ff9b3d);}
-.subir .shape{background:linear-gradient(180deg,#a7f5d0,#43d6a2);}
 
-/* tags */
+/* 🎮 JUEGO AMARILLO */
+.juego .shape{
+  background:linear-gradient(180deg,#fff176,#ffca28);
+}
+.juego .tag{
+  background:#ffca28;
+  color:#5a2b00;
+}
+
+/* etiquetas normales */
 .music .tag{background:#f04aa8;}
 .fotos .tag{background:#3fbef0;}
 .mensajes .tag{background:#9a6bff;}
 .invitados .tag{background:#ff9b3d;}
-.subir .tag{background:#43d6a2;}
 
-/* 🎯 POSICIONES CORREGIDAS */
-
-/* superiores */
+/* POSICIONES CORREGIDAS */
 .music{top:10px;left:10px;}
 .fotos{top:10px;right:10px;}
 
-/* centro (violeta entre ambos) */
 .mensajes{
   top:95px;
-  left:50%;
-  transform:translateX(-50%);
+  left:10px;
 }
 
-/* inferiores */
-.invitados{top:190px;left:15px;}
-.subir{top:190px;right:15px;}
+.juego{
+  top:95px;
+  right:10px;
+}
+
+.invitados{
+  top:190px;
+  left:15px;
+}
 
 /* FOOTER */
 .footer{
@@ -244,15 +245,15 @@ body::after{
       <div class="tag">Dejame un mensajito</div>
     </a>
 
+    <a href="juego.html" class="balloon juego">
+      <div class="shape"></div>
+      <div class="tag">¡Juguemos!</div>
+    </a>
+
     <a href="invitados.html" class="balloon invitados">
       <div class="shape"></div>
       <div class="tag">Quienes compartieron mi día</div>
     </a>
-
-   <a href="juego.html" class="balloon juego">
-  <div class="shape"></div>
-  <div class="tag">¡Juguemos!</div>
-</a>
 
   </div>
 
