@@ -1,149 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muro de Mensajes 💌</title>
-
-<style>
-body{
-margin:0;
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#ffd6ec,#dff6ff,#fff5d7);
-min-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-h1{
-color:#ff4fa3;
-margin-top:25px;
-font-size:28px;
-text-align:center;
-}
-
-p{
-color:#555;
-text-align:center;
-}
-
-.wall{
-width:95%;
-max-width:900px;
-display:flex;
-flex-wrap:wrap;
-gap:15px;
-justify-content:center;
-margin:20px 0 60px;
-}
-
-.card{
-background:white;
-border-radius:20px;
-padding:15px;
-width:260px;
-box-shadow:0 10px 20px rgba(0,0,0,0.12);
-animation:fadeIn 0.5s ease;
-position:relative;
-}
-
-.name{
-font-weight:bold;
-color:#ff4fa3;
-margin-bottom:6px;
-font-size:16px;
-}
-
-.time{
-font-size:13px;
-color:#ff4fa3;
-font-weight:bold;
-margin-bottom:6px;
-}
-
-.text{
-color:#444;
-font-size:14px;
-white-space:pre-wrap;
-word-break:break-word;
-}
-
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-.bottom{
-position:fixed;
-bottom:15px;
-}
-
-.btn{
-background:linear-gradient(45deg,#ff4fa3,#ff8ad4);
-color:white;
-border:none;
-padding:10px 14px;
-border-radius:25px;
-font-size:13px;
-cursor:pointer;
-text-decoration:none;
-box-shadow:0 5px 12px rgba(0,0,0,0.15);
-}
-</style>
-</head>
-
-<body>
-
-<h1>💌 Muro de Mensajes</h1>
-<p>Recuerdos del cumple de Matías ✨</p>
-
-<div class="wall" id="wall"></div>
-
-<div class="bottom">
-<a class="btn" href="index.html">🏠 Inicio</a>
-</div>
-
 <script>
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
-
-function parseCSV(text){
-const rows=[];
-let row=[];
-let cur="";
-let q=false;
-
-for(let i=0;i<text.length;i++){
-const c=text[i];
-const n=text[i+1];
-
-if(c=='"'){
-q=!q;
-}
-else if(c=="," && !q){
-row.push(cur);
-cur="";
-}
-else if((c=="\n"||c=="\r") && !q){
-if(c=="\r" && n=="\n") i++;
-row.push(cur);
-rows.push(row);
-row=[];
-cur="";
-}
-else{
-cur+=c;
-}
-}
-
-if(cur||row.length){
-row.push(cur);
-rows.push(row);
-}
-
-return rows;
-}
 
 async function loadMessages(){
 try{
@@ -151,49 +8,29 @@ try{
 const res = await fetch(SHEET_URL + "&t=" + Date.now());
 const data = await res.text();
 
-const rows = parseCSV(data);
+const rows = data.trim().split("\n").slice(1).reverse();
 
-const wall=document.getElementById("wall");
-wall.innerHTML="";
+const wall = document.getElementById("wall");
+wall.innerHTML = "";
 
-rows.slice(1).reverse().forEach(cols=>{
+rows.forEach(row => {
 
+const cols = row.split(",");
+
+/* 🔴 MAPEO SIMPLE Y FIJO */
 const id = cols[0] || "";
+const time = cols[1] || "";
+const name = cols[2] || "";
+const msg  = cols[3] || "";
 
-/* 🔥 DETECCIÓN REAL (IMPORTANTE) */
-let name = "Anónimo";
-let time = "";
-let msg = "";
+/* si no hay mensaje, no dibuja */
+if(msg === "" || msg === undefined) return;
 
-/* buscar mensaje = el campo más largo */
-msg = cols.find(c => c && c.length > 10) || "";
+const card = document.createElement("div");
+card.className = "card";
 
-/* buscar fecha */
-time = cols.find(c => c.includes("202") || c.includes("-") || c.includes(":")) || "";
-
-/* buscar nombre (lo que NO es fecha ni mensaje largo) */
-for(let c of cols){
-if(
-c &&
-!c.includes("202") &&
-!c.includes("-") &&
-!c.includes(":") &&
-c.length < 30 &&
-c !== msg &&
-c !== id
-){
-name = c;
-break;
-}
-}
-
-if(!msg.trim()) return;
-
-const card=document.createElement("div");
-card.className="card";
-
-card.innerHTML=`
-<div class="name">👤 ${name}</div>
+card.innerHTML = `
+<div class="name">👤 ${name || "Anónimo"}</div>
 <div class="time">🕒 ${time}</div>
 <div class="text">${msg}</div>
 `;
@@ -204,13 +41,11 @@ wall.appendChild(card);
 
 }catch(err){
 console.log(err);
-document.getElementById("wall").innerHTML=
+document.getElementById("wall").innerHTML =
 "<p>Error cargando mensajes 💔</p>";
 }
 }
 
 loadMessages();
-</script>
 
-</body>
-</html>
+</script>
