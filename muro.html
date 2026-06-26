@@ -106,65 +106,25 @@ box-shadow:0 5px 12px rgba(0,0,0,0.15);
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
 
-function parseCSV(text) {
-    const rows = [];
-    let row = [];
-    let current = "";
-    let insideQuotes = false;
-
-    for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const next = text[i + 1];
-
-        if (char === '"') {
-            if (insideQuotes && next === '"') {
-                current += '"';
-                i++;
-            } else {
-                insideQuotes = !insideQuotes;
-            }
-        } else if (char === "," && !insideQuotes) {
-            row.push(current);
-            current = "";
-        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
-            if (char === "\r" && next === "\n") i++;
-            row.push(current);
-            rows.push(row);
-            row = [];
-            current = "";
-        } else {
-            current += char;
-        }
-    }
-
-    if (current || row.length) {
-        row.push(current);
-        rows.push(row);
-    }
-
-    return rows;
-}
-
 async function loadMessages(){
 try{
-const res = await fetch(SHEET_URL + "&t=" + Date.now());
+const res = await fetch(SHEET_URL);
 const data = await res.text();
 
-const rows = parseCSV(data);
-const headers = rows[0].map(h => h.toLowerCase().trim());
-
-const nameIndex = headers.findIndex(h => h.includes("nombre"));
-const messageIndex = headers.findIndex(h => h.includes("mensaje") || h.includes("answer"));
-const timeIndex = headers.findIndex(h => h.includes("submitted") || h.includes("fecha") || h.includes("date"));
+/* limpiar filas */
+const rows = data.trim().split("\n").slice(1).reverse();
 
 const wall = document.getElementById("wall");
 wall.innerHTML = "";
 
-rows.slice(1).reverse().forEach(cols => {
+/* 🔴 ESTE ES EL ORDEN REAL QUE TENÉS AHORA */
+rows.forEach(row=>{
+const cols = row.split(",");
 
-const name = cols[nameIndex] || "Anónimo";
-const msg = cols[messageIndex] || "";
-const time = cols[timeIndex] || "";
+const id = cols[0] || "";
+const time = cols[1] || "";
+const name = cols[2] || "Anónimo";
+const msg = cols.slice(3).join(",") || "";
 
 if(!msg.trim()) return;
 
