@@ -158,13 +158,34 @@ wall.innerHTML="";
 
 rows.slice(1).reverse().forEach(cols=>{
 
-/* 🔥 DETECCIÓN REAL */
 const id = cols[0] || "";
-const maybeName = cols.find(c => c && !c.includes("202") && c.length < 30 && !c.includes(":"));
-const time = cols.find(c => c.includes("202") || c.includes("-") || c.includes(":"));
-const msg = cols[cols.length-1] || "";
 
-const name = maybeName || "Anónimo";
+/* 🔥 DETECCIÓN REAL (IMPORTANTE) */
+let name = "Anónimo";
+let time = "";
+let msg = "";
+
+/* buscar mensaje = el campo más largo */
+msg = cols.find(c => c && c.length > 10) || "";
+
+/* buscar fecha */
+time = cols.find(c => c.includes("202") || c.includes("-") || c.includes(":")) || "";
+
+/* buscar nombre (lo que NO es fecha ni mensaje largo) */
+for(let c of cols){
+if(
+c &&
+!c.includes("202") &&
+!c.includes("-") &&
+!c.includes(":") &&
+c.length < 30 &&
+c !== msg &&
+c !== id
+){
+name = c;
+break;
+}
+}
 
 if(!msg.trim()) return;
 
