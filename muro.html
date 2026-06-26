@@ -110,7 +110,7 @@ box-shadow:0 5px 12px rgba(0,0,0,0.15);
 
 <script>
 
-/* ✅ TU SHEET REAL */
+/* TU SHEET REAL */
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
 
 async function loadMessages(){
@@ -127,11 +127,13 @@ wall.innerHTML = "";
 rows.forEach(row=>{
 const cols = row.split(",");
 
-const timestamp = cols[0] || "";
-const name = cols[1] || "Anónimo";
-const msg = cols.slice(2).join(",") || "";
+/* 🔴 CORRECTO AHORA */
+const id = cols[0] || "";
+const timestamp = cols[1] || "";
+const name = cols[2] || "Anónimo";
+const msg = cols.slice(3).join(",") || "";
 
-if(!msg) return;
+if(!msg.trim()) return;
 
 const card = document.createElement("div");
 card.className = "card";
