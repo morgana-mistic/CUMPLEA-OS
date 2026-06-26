@@ -55,9 +55,8 @@ margin-bottom:6px;
 font-size:16px;
 }
 
-/* 🔥 ESTA ES LA FECHA (GRANDE Y ROSA) */
 .time{
-font-size:14px;
+font-size:13px;
 color:#ff4fa3;
 font-weight:bold;
 margin-bottom:6px;
@@ -67,6 +66,7 @@ margin-bottom:6px;
 color:#444;
 font-size:14px;
 white-space:pre-wrap;
+word-break:break-word;
 }
 
 @keyframes fadeIn{
@@ -108,42 +108,82 @@ box-shadow:0 5px 12px rgba(0,0,0,0.15);
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
 
+function parseCSV(text){
+const rows=[];
+let row=[];
+let cur="";
+let q=false;
+
+for(let i=0;i<text.length;i++){
+const c=text[i];
+const n=text[i+1];
+
+if(c=='"'){
+q=!q;
+}
+else if(c=="," && !q){
+row.push(cur);
+cur="";
+}
+else if((c=="\n"||c=="\r") && !q){
+if(c=="\r" && n=="\n") i++;
+row.push(cur);
+rows.push(row);
+row=[];
+cur="";
+}
+else{
+cur+=c;
+}
+}
+
+if(cur||row.length){
+row.push(cur);
+rows.push(row);
+}
+
+return rows;
+}
+
 async function loadMessages(){
 try{
-const res = await fetch(SHEET_URL);
+
+const res = await fetch(SHEET_URL + "&t=" + Date.now());
 const data = await res.text();
 
-const rows = data.trim().split("\n").slice(1).reverse();
+const rows = parseCSV(data);
 
-const wall = document.getElementById("wall");
-wall.innerHTML = "";
+const wall=document.getElementById("wall");
+wall.innerHTML="";
 
-rows.forEach(row=>{
-const cols = row.split(",");
+rows.slice(1).reverse().forEach(cols=>{
 
-/* ✅ FIX REAL */
+/* 🔥 DETECCIÓN REAL */
 const id = cols[0] || "";
-const time = cols[1] || "";   // FECHA REAL
-const name = cols[2] || "Anónimo";
-const msg = cols.slice(3).join(",") || "";
+const maybeName = cols.find(c => c && !c.includes("202") && c.length < 30 && !c.includes(":"));
+const time = cols.find(c => c.includes("202") || c.includes("-") || c.includes(":"));
+const msg = cols[cols.length-1] || "";
+
+const name = maybeName || "Anónimo";
 
 if(!msg.trim()) return;
 
-const card = document.createElement("div");
-card.className = "card";
+const card=document.createElement("div");
+card.className="card";
 
-card.innerHTML = `
+card.innerHTML=`
 <div class="name">👤 ${name}</div>
-<div class="time">${time}</div>
+<div class="time">🕒 ${time}</div>
 <div class="text">${msg}</div>
 `;
 
 wall.appendChild(card);
+
 });
 
 }catch(err){
 console.log(err);
-document.getElementById("wall").innerHTML =
+document.getElementById("wall").innerHTML=
 "<p>Error cargando mensajes 💔</p>";
 }
 }
