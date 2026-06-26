@@ -55,9 +55,11 @@ margin-bottom:6px;
 font-size:16px;
 }
 
+/* 🔥 ESTA ES LA FECHA (GRANDE Y ROSA) */
 .time{
-font-size:11px;
-color:#999;
+font-size:14px;
+color:#ff4fa3;
+font-weight:bold;
 margin-bottom:6px;
 }
 
@@ -65,7 +67,6 @@ margin-bottom:6px;
 color:#444;
 font-size:14px;
 white-space:pre-wrap;
-word-break:break-word;
 }
 
 @keyframes fadeIn{
@@ -107,69 +108,33 @@ box-shadow:0 5px 12px rgba(0,0,0,0.15);
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
 
-function parseCSV(text){
-const rows = [];
-let row = [];
-let current = "";
-let inside = false;
-
-for(let i=0;i<text.length;i++){
-const c = text[i];
-const n = text[i+1];
-
-if(c === '"'){
-inside = !inside;
-}
-else if(c === "," && !inside){
-row.push(current);
-current = "";
-}
-else if((c === "\n" || c === "\r") && !inside){
-if(c === "\r" && n === "\n") i++;
-row.push(current);
-rows.push(row);
-row = [];
-current = "";
-}
-else{
-current += c;
-}
-}
-
-if(current || row.length){
-row.push(current);
-rows.push(row);
-}
-
-return rows;
-}
-
 async function loadMessages(){
 try{
-const res = await fetch(SHEET_URL + "&t=" + Date.now());
+const res = await fetch(SHEET_URL);
 const data = await res.text();
 
-const rows = parseCSV(data);
+const rows = data.trim().split("\n").slice(1).reverse();
 
 const wall = document.getElementById("wall");
 wall.innerHTML = "";
 
-/* SALTAR HEADER */
-rows.slice(1).reverse().forEach(cols=>{
+rows.forEach(row=>{
+const cols = row.split(",");
 
+/* ✅ FIX REAL */
 const id = cols[0] || "";
-const time = cols.find(c => c.includes("202") || c.includes("-")) || "";
-const name = cols.find((c,i)=> i>0 && i<5 && !c.includes("202")) || "Anónimo";
-const msg = cols[cols.length-1] || "";
+const time = cols[1] || "";   // FECHA REAL
+const name = cols[2] || "Anónimo";
+const msg = cols.slice(3).join(",") || "";
 
-if(!msg || !msg.trim()) return;
+if(!msg.trim()) return;
 
 const card = document.createElement("div");
 card.className = "card";
 
 card.innerHTML = `
 <div class="name">👤 ${name}</div>
-<div class="time">🕒 ${time}</div>
+<div class="time">${time}</div>
 <div class="text">${msg}</div>
 `;
 
