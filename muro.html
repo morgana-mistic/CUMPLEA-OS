@@ -1,3 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muro de Mensajes 💌</title>
+
+<style>
+body{
+margin:0;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#ffd6ec,#dff6ff,#fff5d7);
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+h1{
+color:#ff4fa3;
+margin-top:25px;
+font-size:28px;
+text-align:center;
+}
+
+p{
+color:#555;
+text-align:center;
+}
+
+.wall{
+width:95%;
+max-width:900px;
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+justify-content:center;
+margin:20px 0 60px;
+}
+
+.card{
+background:white;
+border-radius:20px;
+padding:15px;
+width:260px;
+box-shadow:0 10px 20px rgba(0,0,0,0.12);
+animation:fadeIn 0.5s ease;
+}
+
+.name{
+font-weight:bold;
+color:#ff4fa3;
+margin-bottom:6px;
+font-size:16px;
+}
+
+.time{
+font-size:12px;
+color:#999;
+margin-bottom:6px;
+}
+
+.text{
+color:#444;
+font-size:14px;
+white-space:pre-wrap;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(10px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.bottom{
+position:fixed;
+bottom:15px;
+}
+
+.btn{
+background:linear-gradient(45deg,#ff4fa3,#ff8ad4);
+color:white;
+border:none;
+padding:10px 14px;
+border-radius:25px;
+font-size:13px;
+text-decoration:none;
+box-shadow:0 5px 12px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<h1>💌 Muro de Mensajes</h1>
+<p>Recuerdos del cumple de Matías ✨</p>
+
+<div class="wall" id="wall"></div>
+
+<div class="bottom">
+<a class="btn" href="index.html">🏠 Inicio</a>
+</div>
+
 <script>
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
@@ -5,9 +107,10 @@ const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9
 async function loadMessages(){
 try{
 
-const res = await fetch(SHEET_URL + "&t=" + Date.now());
+const res = await fetch(SHEET_URL);
 const data = await res.text();
 
+/* 🔴 PARSEO SIMPLE Y SEGURO */
 const rows = data.trim().split("\n").slice(1).reverse();
 
 const wall = document.getElementById("wall");
@@ -17,26 +120,24 @@ rows.forEach(row => {
 
 const cols = row.split(",");
 
-/* 🔴 MAPEO SIMPLE Y FIJO */
-const id = cols[0] || "";
+/* estructura REAL actual */
 const time = cols[1] || "";
-const name = cols[2] || "";
+const name = cols[2] || "Anónimo";
 const msg  = cols[3] || "";
 
-/* si no hay mensaje, no dibuja */
-if(msg === "" || msg === undefined) return;
+/* si no hay mensaje, no mostrar */
+if(!msg) return;
 
 const card = document.createElement("div");
 card.className = "card";
 
 card.innerHTML = `
-<div class="name">👤 ${name || "Anónimo"}</div>
+<div class="name">👤 ${name}</div>
 <div class="time">🕒 ${time}</div>
 <div class="text">${msg}</div>
 `;
 
 wall.appendChild(card);
-
 });
 
 }catch(err){
@@ -49,3 +150,6 @@ document.getElementById("wall").innerHTML =
 loadMessages();
 
 </script>
+
+</body>
+</html>
