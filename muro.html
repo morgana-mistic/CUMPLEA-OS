@@ -1,52 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muro de Mensajes</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(-45deg,#ffd1dc,#ffeaa7,#c7f9ff,#ffd6ff);
+background-size:400%400%;
+animation:bg 12s ease infinite;
+}
+
+@keyframes bg{
+0%{background-position:0%50%}
+50%{background-position:100%50%}
+100%{background-position:0%50%}
+}
+
+header{
+text-align:center;
+padding:50px 20px 20px;
+color:#fff;
+text-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+
+header h1{margin:0;font-size:32px}
+header p{opacity:.8}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:16px;
+padding:20px;
+max-width:1000px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,.35);
+backdrop-filter:blur(10px);
+border-radius:18px;
+padding:18px;
+border:1px solid rgba(255,255,255,.4);
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+transition:.3s;
+}
+
+.card:hover{transform:translateY(-6px)}
+
+.name{font-weight:bold;color:#7a2cff;margin-bottom:8px}
+.message{white-space:pre-wrap;line-height:1.4;color:#222}
+.date{margin-top:10px;font-size:11px;opacity:.6}
+
+.btn{
+position:fixed;
+top:15px;
+left:15px;
+background:#fff;
+padding:10px 14px;
+border-radius:12px;
+text-decoration:none;
+font-weight:bold;
+color:#7a2cff;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+</style>
+</head>
+
+<body>
+
+<a class="btn" href="index.html">🏠 Inicio</a>
+
+<header>
+<h1>💌 Muro de Mensajes</h1>
+<p>Palabras para Matías</p>
+</header>
+
+<div class="container" id="messages"></div>
+
 <script>
+const SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
 
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjIYkXtO2tx9TqU1hLp8SDPA1MvlpzdFyD2Sqp5zQarMC1LxdtWDOxYtMLIrDtb_4gN8lzqYkDSx2i/pub?gid=0&single=true&output=csv";
+const container=document.getElementById("messages");
 
-async function loadMessages(){
-try{
+function parseCSV(text){
+let rows=[],row=[],cur="",q=false;
+for(let i=0;i<text.length;i++){
+let c=text[i],n=text[i+1];
+if(c=='"'){if(q&&n=='"'){cur+='"';i++;}else q=!q;}
+else if(c==","&&!q){row.push(cur);cur="";}
+else if((c=="\n"||c=="\r")&&!q){
+if(c=="\r"&&n=="\n")i++;
+row.push(cur);rows.push(row);row=[];cur="";
+}else cur+=c;
+}
+if(cur||row.length){row.push(cur);rows.push(row);}
+return rows;
+}
 
-const res = await fetch(SHEET_URL + "&t=" + Date.now());
-const data = await res.text();
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 
-const rows = data.trim().split("\n").slice(1).reverse();
+function load(){
+fetch(SHEET_URL+"&t="+Date.now())
+.then(r=>r.text())
+.then(t=>{
+let data=parseCSV(t);
+let h=data[0].map(x=>x.toLowerCase());
 
-const wall = document.getElementById("wall");
-wall.innerHTML = "";
+let nI=h.findIndex(x=>x.includes("como te llamas"));
+let mI=h.findIndex(x=>x.includes("mensaje")||x.includes("mensajito"));
+let dI=h.findIndex(x=>x.includes("submitted"));
 
-rows.forEach(row => {
+container.innerHTML="";
 
-const cols = row.split(",");
+data.slice(1).reverse().forEach(r=>{
+let name=r[nI]||"Invitado";
+let msg=r[mI]||"";
+let date=r[dI]||"";
+if(!msg)return;
 
-/* 🔴 ORDEN REAL CORRECTO (ACTUAL TALLY) */
-const id    = cols[0] || "";
-const time  = cols[1] || "";
-const code  = cols[2] || "";   // Respondent / email / interno
-const name  = cols[3] || "";
-const msg   = cols[4] || "";
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML=
+"<div class='name'>"+esc(name)+"</div>"+
+"<div class='message'>"+esc(msg)+"</div>"+
+"<div class='date'>"+esc(date)+"</div>";
 
-/* seguridad */
-if(!msg || msg.trim() === "") return;
-
-const card = document.createElement("div");
-card.className = "card";
-
-card.innerHTML = `
-<div class="name">👤 ${name}</div>
-<div class="time">🕒 ${time}</div>
-<div class="text">${msg}</div>
-`;
-
-wall.appendChild(card);
-
+container.appendChild(div);
 });
-
-}catch(err){
-console.log(err);
-document.getElementById("wall").innerHTML =
-"<p>Error cargando mensajes 💔</p>";
-}
+});
 }
 
-loadMessages();
-
+load();
+setInterval(load,20000);
 </script>
+
+</body>
+</html>
