@@ -165,7 +165,7 @@ body::after{
 .mensajes .shape{background:linear-gradient(180deg,#d7b7ff,#9a6bff);}
 .invitados .shape{background:linear-gradient(180deg,#ffd29b,#ff9b3d);}
 
-/* 🎮 JUEGO (CORREGIDO SOLO COLOR) */
+/* JUEGO */
 .juego .shape{
   background:linear-gradient(180deg,#fff59d,#fbc02d);
 }
@@ -175,31 +175,18 @@ body::after{
   color:#5a2b00;
 }
 
-/* etiquetas normales */
+/* etiquetas */
 .music .tag{background:#f04aa8;}
 .fotos .tag{background:#3fbef0;}
 .mensajes .tag{background:#9a6bff;}
 .invitados .tag{background:#ff9b3d;}
 
-/* POSICIONES (INTACTAS) */
+/* POSICIONES */
 .music{top:10px;left:10px;}
 .fotos{top:10px;right:10px;}
-
-.mensajes{
-  top:95px;
-  left:50%;
-  transform:translateX(-50%);
-}
-
-.invitados{
-  top:190px;
-  left:15px;
-}
-
-.juego{
-  top:190px;
-  right:15px;
-}
+.mensajes{top:95px;left:50%;transform:translateX(-50%);}
+.invitados{top:190px;left:15px;}
+.juego{top:190px;right:15px;}
 
 /* FOOTER */
 .footer{
@@ -268,6 +255,10 @@ body::after{
   Diseño digital por Morgana Tecno
 </a>
   </div>
+
+</div>
+
+<!-- BOTÓN MURO (FUERA DEL PAGE) -->
 <div style="
 position:fixed;
 bottom:12px;
@@ -279,9 +270,9 @@ padding:6px 10px;
 border-radius:12px;
 box-shadow:0 3px 10px rgba(0,0,0,0.1);
 cursor:pointer;
+z-index:999;
 " onclick="window.location.href='muro.html'">
 💌 muro
-</div>
 </div>
 
 </body>
