@@ -127,6 +127,7 @@ wall.innerHTML = "";
 rows.forEach(row=>{
 const cols = row.split(",");
 
+const timestamp = cols[0] || "";
 const name = cols[1] || "Anónimo";
 const msg = cols.slice(2).join(",") || "";
 
@@ -137,6 +138,9 @@ card.className = "card";
 
 card.innerHTML = `
 <div class="name">👤 ${name}</div>
+<div style="font-size:11px;color:#999;margin-bottom:6px;">
+🕒 ${timestamp}
+</div>
 <div class="text">${msg}</div>
 `;
 
